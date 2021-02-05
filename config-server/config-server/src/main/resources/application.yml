@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spring-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Nataraj2609/i2i_netmed_config_files
+server:
+  port: 8888
