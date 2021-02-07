@@ -1,6 +1,6 @@
 spring:
   application:
-    name: spring-config-server
+    name: netmed-config-server
   cloud:
     config:
       server:
