@@ -13,6 +13,10 @@ spring:
         discovery:
           enabled: true
           service-id: netmed-config-server
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 server:
   port: 9000

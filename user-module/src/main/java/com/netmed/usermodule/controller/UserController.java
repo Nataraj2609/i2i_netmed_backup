@@ -1,14 +1,12 @@
 package com.netmed.usermodule.controller;
 
 import com.netmed.usermodule.dto.UserDto;
-import com.netmed.usermodule.model.User;
 import com.netmed.usermodule.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -25,8 +23,64 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/getallusers")
-    public Page<User> getUsers(){
-        return userService.getUsers();
+    /**
+     * Saves the user details
+     *
+     * @param userDto
+     * @return Response status with saved user record
+     */
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+        return userService.createUser(userDto);
+    }
+
+    /**
+     * Get the user details based on id
+     *
+     * @param userId
+     * @return Requested User Detail
+     */
+    @GetMapping(path = "/{userId}")
+    public UserDto getUser(@PathVariable long userId) {
+        return userService.getUser(userId);
+    }
+
+    /**
+     * Update the user details for the id
+     *
+     * @param userDto
+     * @return Requested User Detail
+     */
+    @PutMapping
+    public UserDto updateUser(@Valid @RequestBody UserDto userDto) {
+        return userService.updateUser(userDto);
+    }
+
+    /**
+     * Delete the user details for the id
+     *
+     * @param userId
+     * @return No Content
+     */
+    @DeleteMapping(path = "/{userId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable long userId) {
+         userService.deleteUser(userId);
+    }
+
+    /**
+     * Retrieves all the patients details matching the given condition
+     *
+     * @param limit
+     * @param page
+     * @param orderBy
+     * @return List of User Details
+     */
+    @GetMapping("getallusers")
+    public List<UserDto> getAllUsers(@RequestParam(name = "page", defaultValue = "0") int page,
+                                     @RequestParam(name = "limit", defaultValue = "10") int limit,
+                                     @RequestParam(name = "orderBy", defaultValue = "asc") String orderBy) {
+        return userService.getAllUsers(page, limit, orderBy);
     }
 }

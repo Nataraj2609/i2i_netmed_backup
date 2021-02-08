@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+
 /**
  * UserDto is a Dto for User Entity
  *
@@ -22,5 +24,14 @@ public class UserDto {
     @Size(min = 6, message = "Password should be greater than 5 Characters")
     private String password;
 
-    private RoleDto roleDto;
+    @NotBlank(message = "Role Name should not be null - (Doctor, Patient)")
+    private String roleName;
+
+    private String createdBy;
+
+    private LocalDateTime createdDate;
+
+    private String lastModifiedBy;
+
+    private LocalDateTime lastModifiedDate;
 }

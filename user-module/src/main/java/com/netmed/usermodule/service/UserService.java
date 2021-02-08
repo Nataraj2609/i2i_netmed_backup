@@ -1,9 +1,6 @@
 package com.netmed.usermodule.service;
 
 import com.netmed.usermodule.dto.UserDto;
-import com.netmed.usermodule.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,6 +12,13 @@ import java.util.List;
  */
 public interface UserService {
 
-    public Page<User> getUsers();
+    List<UserDto> getAllUsers(int page, int limit, String orderBy);
 
+    UserDto createUser(UserDto userDto);
+
+    UserDto getUser(long userId);
+
+    UserDto updateUser(UserDto userDto);
+
+    void deleteUser(long userId);
 }
