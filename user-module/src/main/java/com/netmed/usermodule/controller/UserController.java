@@ -66,11 +66,11 @@ public class UserController {
     @DeleteMapping(path = "/{userId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable long userId) {
-         userService.deleteUser(userId);
+        userService.deleteUser(userId);
     }
 
     /**
-     * Retrieves all the patients details matching the given condition
+     * Retrieves all the user details matching the given condition
      *
      * @param limit
      * @param page
@@ -82,5 +82,33 @@ public class UserController {
                                      @RequestParam(name = "limit", defaultValue = "10") int limit,
                                      @RequestParam(name = "orderBy", defaultValue = "asc") String orderBy) {
         return userService.getAllUsers(page, limit, orderBy);
+    }
+
+    /**
+     * Search all the user details matching the given condition
+     *
+     * @param search
+     * @param limit
+     * @param page
+     * @param orderBy
+     * @return List of User Details
+     */
+    @GetMapping("searchuser")
+    public List<UserDto> searchUser(@RequestParam(name = "search") String search,
+                                    @RequestParam(name = "page", defaultValue = "0") int page,
+                                    @RequestParam(name = "limit", defaultValue = "10") int limit,
+                                    @RequestParam(name = "orderBy", defaultValue = "asc") String orderBy) {
+        return userService.searchUser(search, page, limit, orderBy);
+    }
+
+    /**
+     * Search all the user details matching the given condition using QUERY (Learning Purpose)
+     *
+     * @param search
+     * @return List of User Details
+     */
+    @GetMapping("search")
+    public List<UserDto> search(@RequestParam(name = "search") String search) {
+        return userService.search(search);
     }
 }

@@ -110,4 +110,30 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findAll(pageable).toList();
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
+
+    /**
+     * Search all the user details matching the given condition
+     *
+     * @param search
+     * @param limit
+     * @param page
+     * @param orderBy
+     * @return List of User Details
+     */
+    @Override
+    public List<UserDto> searchUser(String search, int page, int limit, String orderBy) {
+        Pageable pageable;
+        if (orderBy.equals("des"))
+            pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "userName"));
+        else
+            pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "userName"));
+        List<User> userList = userRepository.findByUserName(search, pageable).toList();
+        return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> search(String search) {
+        List<User> userList = userRepository.findUserByUserName(search);
+        return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+    }
 }

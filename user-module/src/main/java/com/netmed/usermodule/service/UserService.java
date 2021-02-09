@@ -12,8 +12,6 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<UserDto> getAllUsers(int page, int limit, String orderBy);
-
     UserDto createUser(UserDto userDto);
 
     UserDto getUser(long userId);
@@ -21,4 +19,10 @@ public interface UserService {
     UserDto updateUser(UserDto userDto);
 
     void deleteUser(long userId);
+
+    List<UserDto> getAllUsers(int page, int limit, String orderBy);
+
+    List<UserDto> searchUser(String search, int page, int limit, String orderBy);
+
+    List<UserDto> search(String search);
 }
