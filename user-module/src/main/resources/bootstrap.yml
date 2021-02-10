@@ -13,6 +13,12 @@ spring:
         discovery:
           enabled: true
           service-id: netmed-config-server
+    vault:
+      scheme: http
+      kv:
+        enabled: true
+      uri: http://localhost:8200
+      token: 00000000-0000-0000-0000-000000000000
 management:
   endpoints:
     web:
