@@ -1,6 +1,5 @@
 package com.netmed.usermodule.config;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,12 +17,7 @@ import java.util.Collections;
  * @created 07/02/20
  */
 @Configuration
-public class UserConfig {
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+public class SwaggerConfig {
 
     @Bean
     public Docket productApi() {

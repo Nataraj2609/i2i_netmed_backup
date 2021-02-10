@@ -63,10 +63,7 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "user")
     public UserDto getUser(long userId) {
         Optional<User> userEntity = userRepository.findById(userId);
-        System.out.println(userEntity);
-        System.out.println("DB Hit occurred :)");
         UserDto user = modelMapper.map(userEntity.get(), UserDto.class);
-        System.out.println(user);
         return user;
     }
 

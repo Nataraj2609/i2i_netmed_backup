@@ -28,10 +28,12 @@ public class CacheConfig {
     public RedisCacheManager getRedisCacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheWriter cacheWriter = RedisCacheWriter.lockingRedisCacheWriter(connectionFactory);
         ClassLoader loader = this.getClass().getClassLoader();
+
         JdkSerializationRedisSerializer jdkSerializer = new JdkSerializationRedisSerializer(loader);
         RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(jdkSerializer);
         RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
         cacheConfig = cacheConfig.entryTtl(Duration.ofSeconds(3600));
+
         Map<String, RedisCacheConfiguration> initialCacheConfigurations = new HashMap<>();
         initialCacheConfigurations.put("user", cacheConfig.entryTtl(Duration.ofSeconds(1600)));
         RedisCacheManager cacheManager = new RedisCacheManager(cacheWriter, cacheConfig, initialCacheConfigurations);
