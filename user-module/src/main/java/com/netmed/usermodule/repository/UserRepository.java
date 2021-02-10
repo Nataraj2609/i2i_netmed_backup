@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * UserRepository is a JPA Repository to talk with DB
@@ -26,6 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByUserName(String userName, Pageable pageable);
 
     /* Additional Queries - Learning Query */
-    @Query(value = "select * from netmed_user where user_name like ?1%", nativeQuery =true)
+    @Query(value = "select * from netmed_user where user_name like ?1%", nativeQuery = true)
     List<User> findUserByUserName(String userName);
 }

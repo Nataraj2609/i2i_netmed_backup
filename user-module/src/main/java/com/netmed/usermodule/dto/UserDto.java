@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +14,10 @@ import java.time.LocalDateTime;
  * @created 04/02/2021
  */
 @Data
-public class UserDto {
+public class UserDto implements Serializable {
+
+    /*Serializable is used because of JdkSerializationRedisSerializer used in CacheConfig - For Redis*/
+    private static final long serialVersionUID = 6340298171379460244L;
 
     @NotBlank(message = "User Name should not be null")
     @Size(max = 15, message = "User Name should be less than 16 Characters")

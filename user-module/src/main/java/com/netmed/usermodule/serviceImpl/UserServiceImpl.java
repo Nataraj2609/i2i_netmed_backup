@@ -8,6 +8,9 @@ import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
      * @return Response status with saved user record
      */
     @Override
+    @CachePut(value = "user")
     public UserDto createUser(UserDto userDto) {
         User userEntity = modelMapper.map(userDto, User.class);
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
@@ -56,9 +60,11 @@ public class UserServiceImpl implements UserService {
      * @return Requested User Detail
      */
     @Override
+    @Cacheable(value = "user")
     public UserDto getUser(long userId) {
         Optional<User> userEntity = userRepository.findById(userId);
         System.out.println(userEntity);
+        System.out.println("DB Hit occurred :)");
         UserDto user = modelMapper.map(userEntity.get(), UserDto.class);
         System.out.println(user);
         return user;
@@ -71,6 +77,7 @@ public class UserServiceImpl implements UserService {
      * @return Requested User Detail
      */
     @Override
+    @CachePut(value = "user")
     public UserDto updateUser(UserDto userDto) {
         User oldUserEntity = userRepository.findByUserName(userDto.getUserName());
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
@@ -88,6 +95,7 @@ public class UserServiceImpl implements UserService {
      * @return No Content
      */
     @Override
+    @CacheEvict(value = "user")
     public void deleteUser(long userId) {
         userRepository.deleteById(userId);
     }
@@ -101,6 +109,7 @@ public class UserServiceImpl implements UserService {
      * @return user list
      */
     @Override
+    @Cacheable(value = "user")
     public List<UserDto> getAllUsers(int page, int limit, String orderBy) {
         Pageable pageable;
         if (orderBy.equals("des"))
@@ -121,6 +130,7 @@ public class UserServiceImpl implements UserService {
      * @return List of User Details
      */
     @Override
+    @Cacheable(value = "user")
     public List<UserDto> searchUser(String search, int page, int limit, String orderBy) {
         Pageable pageable;
         if (orderBy.equals("des"))
@@ -131,7 +141,14 @@ public class UserServiceImpl implements UserService {
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
+    /**
+     * Search all the user details matching the given condition (Native Query)
+     *
+     * @param search
+     * @return List of User Details
+     */
     @Override
+    @Cacheable(value = "user")
     public List<UserDto> search(String search) {
         List<User> userList = userRepository.findUserByUserName(search);
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
