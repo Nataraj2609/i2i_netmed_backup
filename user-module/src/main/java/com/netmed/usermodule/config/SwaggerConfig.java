@@ -11,7 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.Collections;
 
 /**
- * UtilConfig provides beans for Utility classes
+ * SwaggerConfig provides beans for Swagger Documentation of Rest End points
  *
  * @author Nataraj m
  * @created 07/02/20
@@ -32,11 +32,10 @@ public class SwaggerConfig {
                 "Netmed User API documentation",
                 "Ideas2It Sample Healthcare software",
                 "1.0",
-                "http://www.appsdeveloperblof.com/service.html",
+                "https://www.ideas2it.com/",
                 new Contact("Nataraj", "", "nataraj.manivannan@ideas2it.com"),
                 "Apache 2.0",
                 "http://www.apache.org/licenses/LICENSE-2.0",
                 Collections.emptyList());
     }
-
 }

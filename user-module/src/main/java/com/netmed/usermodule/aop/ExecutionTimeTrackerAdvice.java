@@ -9,6 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
+/**
+ * ExecutionTimeTrackerAdvice is an Aspect Advice around the @LogExecutionTime annotation to keep track of Execution time of a method
+ *
+ * @author Nataraj
+ * @created 04/02/2021
+ */
 @Aspect
 @Component
 public class ExecutionTimeTrackerAdvice {
@@ -30,7 +36,6 @@ public class ExecutionTimeTrackerAdvice {
             logger.info(String.valueOf(stopWatch.getTotalTimeSeconds()));
             logger.info(stopWatch.prettyPrint());
         }
-
         return result;
     }
 }

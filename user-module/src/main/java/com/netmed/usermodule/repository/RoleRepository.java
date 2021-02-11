@@ -1,7 +1,6 @@
 package com.netmed.usermodule.repository;
 
 import com.netmed.usermodule.model.Role;
-import com.netmed.usermodule.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

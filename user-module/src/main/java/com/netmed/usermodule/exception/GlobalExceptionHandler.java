@@ -52,7 +52,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        System.out.println(ex.getBindingResult().getAllErrors());
         Map<String, String> errors = ex.getAllErrors().stream()
                 .collect(Collectors.toMap((objectError -> ((FieldError) objectError).getField()), ObjectError::getDefaultMessage));
         return handleExceptionInternal(ex, errors, headers, status, request);

@@ -8,8 +8,8 @@ import com.netmed.usermodule.model.User;
 import com.netmed.usermodule.repository.RoleRepository;
 import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
-import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,14 +30,16 @@ import java.util.stream.Collectors;
  * @created 04/02/2021
  */
 @Service
-@Data
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
-    private final ModelMapper modelMapper;
+    @Autowired
+    ModelMapper modelMapper;
 
     /**
      * createUser Saves the user details
@@ -104,7 +106,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(long userId) {
         try {
             userRepository.deleteById(userId);
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             throw new UserNotFoundException();
         }
     }
@@ -120,11 +122,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(value = "user")
     public List<UserDto> getAllUsers(int page, int limit, String orderBy) {
-        Pageable pageable;
-        if (orderBy.equals("des"))
-            pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "userName"));
-        else
-            pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "userName"));
+        Sort.Direction sortDirection = orderBy.equals("des") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "userName"));
         List<User> userList = userRepository.findAll(pageable).toList();
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
@@ -141,11 +140,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(value = "user")
     public List<UserDto> searchUser(String search, int page, int limit, String orderBy) {
-        Pageable pageable;
-        if (orderBy.equals("des"))
-            pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "userName"));
-        else
-            pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.ASC, "userName"));
+        Sort.Direction sortDirection = orderBy.equals("des") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "userName"));
         List<User> userList = userRepository.findByUserName(search, pageable).toList();
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }

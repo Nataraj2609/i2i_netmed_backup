@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * UserRepository is a JPA Repository to talk with DB
+ * UserRepository is a JPA Repository to Persist User Entity with DB
  *
  * @author Nataraj
  * @created 04/02/2021

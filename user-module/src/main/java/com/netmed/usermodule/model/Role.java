@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Role is a JPA Entity
@@ -30,5 +28,4 @@ public class Role {
 
     @Column(name = "role_name", length = 10)
     private String roleName;
-
 }
