@@ -27,4 +27,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     /* Additional Queries - Learning Query */
     @Query(value = "select * from netmed_user where user_name like ?1%", nativeQuery = true)
     List<User> findUserByUserName(String userName);
+
+    boolean existsByUserName(String userName);
 }

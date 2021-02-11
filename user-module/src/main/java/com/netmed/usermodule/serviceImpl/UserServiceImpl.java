@@ -1,6 +1,8 @@
 package com.netmed.usermodule.serviceImpl;
 
 import com.netmed.usermodule.dto.UserDto;
+import com.netmed.usermodule.exception.DuplicateUserRecordFoundException;
+import com.netmed.usermodule.exception.UserNotFoundException;
 import com.netmed.usermodule.model.Role;
 import com.netmed.usermodule.model.User;
 import com.netmed.usermodule.repository.RoleRepository;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -48,7 +51,8 @@ public class UserServiceImpl implements UserService {
         User userEntity = modelMapper.map(userDto, User.class);
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
         userEntity.setRole(roleEntity);
-
+        if (userRepository.existsByUserName(userEntity.getUserName()))
+            throw new DuplicateUserRecordFoundException();
         userEntity = userRepository.save(userEntity);
         return modelMapper.map(userEntity, UserDto.class);
     }
@@ -63,6 +67,8 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "user")
     public UserDto getUser(long userId) {
         Optional<User> userEntity = userRepository.findById(userId);
+        if (!userEntity.isPresent())
+            throw new UserNotFoundException();
         UserDto user = modelMapper.map(userEntity.get(), UserDto.class);
         return user;
     }
@@ -76,6 +82,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @CachePut(value = "user")
     public UserDto updateUser(UserDto userDto) {
+        if (!userRepository.existsByUserName(userDto.getUserName()))
+            throw new UserNotFoundException();
         User oldUserEntity = userRepository.findByUserName(userDto.getUserName());
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
         oldUserEntity.setRole(roleEntity);
@@ -94,7 +102,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(value = "user")
     public void deleteUser(long userId) {
-        userRepository.deleteById(userId);
+        try {
+            userRepository.deleteById(userId);
+        } catch (EmptyResultDataAccessException e){
+            throw new UserNotFoundException();
+        }
     }
 
     /**
