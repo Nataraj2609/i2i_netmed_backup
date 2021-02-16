@@ -3,6 +3,8 @@ package com.netmed.patientmodule.service;
 
 import com.netmed.patientmodule.dto.PatientDto;
 
+import java.util.List;
+
 /**
  * PatientService is used to perform operations on patient records
  *
@@ -18,4 +20,8 @@ public interface PatientService {
     PatientDto updatePatientRecord(long patientId, PatientDto patientDto);
 
     void deletePatientRecord(long patientId);
+
+    List<PatientDto> getallpatientrecords(int page, int limit, String orderBy);
+
+    List<PatientDto> searchpatientrecords(String search, int page, int limit, String orderBy);
 }
