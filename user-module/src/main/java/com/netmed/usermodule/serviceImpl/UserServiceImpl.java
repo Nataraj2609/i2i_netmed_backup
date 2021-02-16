@@ -158,4 +158,10 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userRepository.findUserByUserName(search);
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public long getUserIdByUserName(String userName) {
+        long userId = userRepository.findUserIdByUserName(userName);
+        return userId;
+    }
 }

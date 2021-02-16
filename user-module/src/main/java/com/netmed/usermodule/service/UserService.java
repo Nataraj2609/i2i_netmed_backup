@@ -25,4 +25,6 @@ public interface UserService {
     List<UserDto> searchUser(String search, int page, int limit, String orderBy);
 
     List<UserDto> search(String search);
+
+    long getUserIdByUserName(String userName);
 }

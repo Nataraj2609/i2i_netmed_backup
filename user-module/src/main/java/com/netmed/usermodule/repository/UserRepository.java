@@ -29,4 +29,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUserByUserName(String userName);
 
     boolean existsByUserName(String userName);
+
+    /* Additional Queries - Learning Query */
+    @Query(value = "select user_id from netmed_user where user_name like ?1", nativeQuery = true)
+    long findUserIdByUserName(String userName);
 }

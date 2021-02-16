@@ -127,4 +127,17 @@ public class UserController {
     public List<UserDto> search(@RequestParam(name = "search") String search) {
         return userService.search(search);
     }
+
+    /**
+     * Get the User Id for the need of Patient Module Microservice(Consumed by Feign client call directly)
+     *
+     * @param userName
+     * @return Requested User id
+     */
+    @GetMapping(path = "/findUserId")
+    @ApiOperation(value = "Api Endpoint to get the User Id for the need of Patient Module Microservice(Consumed by Feign client call directly, No need to show in Frontend.")
+    @LogExecutionTime
+    public long getUserIdByUserName(@RequestParam String userName) {
+        return userService.getUserIdByUserName(userName);
+    }
 }
