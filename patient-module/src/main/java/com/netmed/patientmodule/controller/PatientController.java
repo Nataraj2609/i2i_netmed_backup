@@ -32,8 +32,8 @@ public class PatientController {
      */
     @ResponseStatus(value = HttpStatus.CREATED)
     @ApiOperation(value = "Api Endpoint to create the patient details")
-    @LogExecutionTime
     @PostMapping
+    @LogExecutionTime
     public PatientDto createPatientRecord(@Valid @RequestBody PatientDto patientDto) {
         return patientService.createPatientRecord(patientDto);
     }
@@ -45,8 +45,8 @@ public class PatientController {
      * @return Requested patient Detail
      */
     @ApiOperation(value = "Api Endpoint to get the patient details")
-    @LogExecutionTime
     @GetMapping(path = "/{patientId}")
+    @LogExecutionTime
     public PatientDto getPatientRecords(@PathVariable long patientId) {
         return patientService.getPatientRecords(patientId);
     }
@@ -58,8 +58,8 @@ public class PatientController {
      * @return Requested Patient Detail
      */
     @ApiOperation(value = "Api Endpoint to update the Patient details")
-    @LogExecutionTime
     @PutMapping(path = "/{patientId}")
+    @LogExecutionTime
     public PatientDto updatePatientRecord(@Valid @RequestBody PatientDto patientDto, @PathVariable long patientId) {
         return patientService.updatePatientRecord(patientId, patientDto);
     }
@@ -72,8 +72,8 @@ public class PatientController {
      */
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Api Endpoint to delete the Patient details")
-    @LogExecutionTime
     @DeleteMapping(path = "/{patientId}")
+    @LogExecutionTime
     public void deletePatientRecord(@PathVariable long patientId) {
         patientService.deletePatientRecord(patientId);
     }
@@ -87,8 +87,8 @@ public class PatientController {
      * @return List of Patient Details
      */
     @ApiOperation(value = "Api Endpoint to retrieve all the Patient details")
-    @LogExecutionTime
     @GetMapping("getallpatientrecords")
+    @LogExecutionTime
     public List<PatientDto> getallpatientrecords(@RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "limit", defaultValue = "10") int limit,
                                                  @RequestParam(name = "orderBy", defaultValue = "asc") String orderBy) {
@@ -105,8 +105,8 @@ public class PatientController {
      * @return List of Patient Details
      */
     @ApiOperation(value = "Api Endpoint to search for the Patient record - Only using User name")
-    @LogExecutionTime
     @GetMapping("searchpatientrecords")
+    @LogExecutionTime
     public List<PatientDto> searchpatientrecords(@RequestParam(name = "search") String search,
                                                  @RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "limit", defaultValue = "10") int limit,

@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: vital-module
+  profiles:
+    active: dev
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-attempts: 20
+        max-interval: 15000
+        initial-interval: 10000
+        discovery:
+          enabled: true
+          service-id: netmed-config-server
+    vault:
+      scheme: http
+      kv:
+        enabled: true
+      uri: http://localhost:8200
+      token: 00000000-0000-0000-0000-000000000000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 9002
