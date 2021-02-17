@@ -24,6 +24,7 @@ Blood Sugar level : 120 to 300 (3 Hours after eating)
 
 
 
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
 
 
