@@ -4,6 +4,12 @@ import com.netmed.vitalmodule.dto.VitalRecordDto;
 
 import java.util.List;
 
+/**
+ * VitalRecordService is used to perform operations on patient Vital records
+ *
+ * @author Nataraj
+ * @created 16/02/2021
+ */
 public interface VitalRecordService {
 
     VitalRecordDto createPatientVitalRecord(VitalRecordDto vitalRecordDto);

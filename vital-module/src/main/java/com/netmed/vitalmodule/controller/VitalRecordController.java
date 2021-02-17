@@ -25,13 +25,26 @@ public class VitalRecordController {
     @Autowired
     VitalRecordService vitalRecordService;
 
+    /**
+     * Saves the Patient Vital details
+     *
+     * @param vitalRecordDto
+     * @return Response status with saved patient record
+     */
     @ResponseStatus(value = HttpStatus.CREATED)
+    @ApiOperation(value = "Api Endpoint to create the patient vital details")
     @PostMapping
+    @LogExecutionTime
     public VitalRecordDto createPatientVitalRecord(@Valid @RequestBody VitalRecordDto vitalRecordDto) {
         return vitalRecordService.createPatientVitalRecord(vitalRecordDto);
     }
 
-
+    /**
+     * Get the patient viatl details based on id
+     *
+     * @param checkupId
+     * @return Requested patient vital Detail
+     */
     @ApiOperation(value = "Api Endpoint to retrieve the Patient Vital details using Checkup Id")
     @GetMapping(path = "/{checkupId}")
     @LogExecutionTime
@@ -39,19 +52,41 @@ public class VitalRecordController {
         return vitalRecordService.getVitalInformation(checkupId);
     }
 
+    /**
+     * Update the Patient vital details for the id
+     *
+     * @param checkupId
+     * @param vitalRecordDto
+     * @return Updated Patient vital Detail
+     */
+    @ApiOperation(value = "Api Endpoint to update the Patient vital details")
     @PutMapping(path = "/{checkupId}")
+    @LogExecutionTime
     public VitalRecordDto updateVitalRecord(@Valid @RequestBody VitalRecordDto vitalRecordDto, @PathVariable long checkupId) {
         return vitalRecordService.updateVitalRecord(checkupId, vitalRecordDto);
     }
 
-
+    /**
+     * Delete the Patient vital details for the id
+     *
+     * @param checkupId
+     * @return No Content status code
+     */
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/{checkupId}")
+    @LogExecutionTime
     public void deletePatientVitalRecord(@PathVariable long checkupId) {
         vitalRecordService.deletePatientVitalRecord(checkupId);
     }
 
-
+    /**
+     * Retrieves all the Patient vital details matching the given condition
+     *
+     * @param limit
+     * @param page
+     * @param orderBy
+     * @return List of Patient vital Details
+     */
     @ApiOperation(value = "Api Endpoint to retrieve all the Patient's Vital details")
     @GetMapping("getAllVitalRecords")
     @LogExecutionTime
@@ -61,7 +96,15 @@ public class VitalRecordController {
         return vitalRecordService.getAllVitalRecords(page, limit, orderBy);
     }
 
-
+    /**
+     * Search all the Patient details matching the given condition
+     *
+     * @param search
+     * @param limit
+     * @param page
+     * @param orderBy
+     * @return List of Patient vital Details
+     */
     @ApiOperation(value = "Api Endpoint to search for the Patient Vital record - Only using User name")
     @GetMapping("searchPatientVitalRecords")
     @LogExecutionTime

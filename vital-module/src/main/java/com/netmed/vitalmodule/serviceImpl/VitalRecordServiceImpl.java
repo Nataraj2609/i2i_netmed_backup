@@ -11,6 +11,9 @@ import com.netmed.vitalmodule.repository.VitalRecordRepository;
 import com.netmed.vitalmodule.service.VitalRecordService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * VitalRecordServiceImpl is a Implementation of VitalRecordService
+ *
+ * @author Nataraj
+ * @created 12/02/2021
+ */
 @Service
 public class VitalRecordServiceImpl implements VitalRecordService {
 
@@ -31,7 +40,15 @@ public class VitalRecordServiceImpl implements VitalRecordService {
     @Autowired
     UserClientProxy userClientProxy;
 
+
+    /**
+     * createPatientVitalRecord Saves the Patient vital details
+     *
+     * @param vitalRecordDto
+     * @return Response status with saved Patient vital record
+     */
     @Override
+    @CachePut("vital-record")
     public VitalRecordDto createPatientVitalRecord(VitalRecordDto vitalRecordDto) {
         VitalRecord vitalRecord = modelMapper.map(vitalRecordDto, VitalRecord.class);
         long userId = 0, examinerId = 0;
@@ -49,7 +66,14 @@ public class VitalRecordServiceImpl implements VitalRecordService {
         return vitalRecordDto;
     }
 
+    /**
+     * Get the Patient vital details based on id
+     *
+     * @param checkupId
+     * @return Requested Patient vital Detail
+     */
     @Override
+    @Cacheable("vital-record")
     public VitalRecordDto getVitalInformation(long checkupId) {
         if (!vitalRecordRepository.existsById(checkupId))
             throw new VitalRecordNotFoundException();
@@ -67,7 +91,15 @@ public class VitalRecordServiceImpl implements VitalRecordService {
         return vitalRecordDto;
     }
 
+    /**
+     * Update Service for updating the Patient Vital details for the id
+     *
+     * @param checkupId
+     * @param vitalRecordDto
+     * @return Updated Patient Detail
+     */
     @Override
+    @CachePut("vital-record")
     public VitalRecordDto updateVitalRecord(long checkupId, VitalRecordDto vitalRecordDto) {
         if (!vitalRecordRepository.existsById(checkupId))
             throw new VitalRecordNotFoundException();
@@ -90,7 +122,14 @@ public class VitalRecordServiceImpl implements VitalRecordService {
         return vitalRecordDto;
     }
 
+    /**
+     * Delete the Patient vital details for the id
+     *
+     * @param checkupId
+     * @return No Content
+     */
     @Override
+    @CacheEvict("vital-record")
     public void deletePatientVitalRecord(long checkupId) {
         try {
             vitalRecordRepository.deleteById(checkupId);
@@ -99,7 +138,16 @@ public class VitalRecordServiceImpl implements VitalRecordService {
         }
     }
 
+    /**
+     * Retrieves all the patient vital details matching the given condition
+     *
+     * @param orderBy
+     * @param page
+     * @param limit
+     * @return Patient vital list
+     */
     @Override
+    @Cacheable("vital-record")
     public List<VitalRecordDto> getAllVitalRecords(int page, int limit, String orderBy) {
         Pageable pageable = PageRequest.of(page, limit);
         List<VitalRecord> vitalRecordList = vitalRecordRepository.findAll(pageable).toList();
@@ -128,7 +176,17 @@ public class VitalRecordServiceImpl implements VitalRecordService {
         return vitalRecordDtoList;
     }
 
+    /**
+     * Search all the vital details matching the given condition
+     *
+     * @param search
+     * @param limit
+     * @param page
+     * @param orderBy
+     * @return List of Patient Details
+     */
     @Override
+    @Cacheable("vital-record")
     public List<VitalRecordDto> searchPatientVitalRecords(String search, int page, int limit, String orderBy) {
         Pageable pageable = PageRequest.of(page, limit);
         List<VitalRecord> vitalRecordList = vitalRecordRepository.findAll(pageable).toList();
