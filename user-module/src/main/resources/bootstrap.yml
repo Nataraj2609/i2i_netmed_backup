@@ -1,8 +1,6 @@
 spring:
   application:
     name: user-module
-  profiles:
-    active: dev
   cloud:
     config:
       fail-fast: true
