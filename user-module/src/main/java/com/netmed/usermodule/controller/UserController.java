@@ -19,7 +19,7 @@ import java.util.List;
  * @created 04/02/2021
  */
 @RestController
-@RequestMapping("/netmed-user-api")
+@RequestMapping("/netmed-user-api/v1")
 public class UserController {
 
     @Autowired

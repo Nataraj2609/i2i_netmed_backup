@@ -1,8 +1,6 @@
 spring:
   application:
     name: vital-module
-  profiles:
-    active: dev
   cloud:
     config:
       fail-fast: true

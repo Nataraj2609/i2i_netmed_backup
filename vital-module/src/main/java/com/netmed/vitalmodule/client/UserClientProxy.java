@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Nataraj
  * @created 15/02/2021
  */
-@FeignClient(name = "user-module/netmed-user-api")
+@FeignClient(name = "user-module/netmed-user-api/v1")
 public interface UserClientProxy {
 
     //For Create, Update

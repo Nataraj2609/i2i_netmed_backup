@@ -1,4 +1,4 @@
-package com.netmed.usermodule.config;
+package com.netmed.patientmodule.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
