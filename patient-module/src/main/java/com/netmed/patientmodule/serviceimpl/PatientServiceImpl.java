@@ -38,12 +38,6 @@ public class PatientServiceImpl implements PatientService {
 
     private final UserClientProxy userClientProxy;
 
-    /**
-     * createPatientRecord Saves the Patient details
-     *
-     * @param patientDto
-     * @return Response status with saved Patient record
-     */
     @Override
     @CachePut(value = "patient")
     public PatientDto createPatientRecord(PatientDto patientDto) {
@@ -60,12 +54,6 @@ public class PatientServiceImpl implements PatientService {
         return modelMapper.map(patient, PatientDto.class);
     }
 
-    /**
-     * Get the Patient details based on id
-     *
-     * @param patientId
-     * @return Requested Patient Detail
-     */
     @Override
     @Cacheable(value = "patient")
     public PatientDto getPatientRecords(long patientId) {
@@ -76,13 +64,6 @@ public class PatientServiceImpl implements PatientService {
         return patientRecord;
     }
 
-    /**
-     * Update Service for updating the Patient details for the id
-     *
-     * @param patientId
-     * @param patientDto
-     * @return Updated Patient Detail
-     */
     @Override
     @CachePut(value = "patient")
     public PatientDto updatePatientRecord(long patientId, PatientDto patientDto) {
@@ -104,12 +85,6 @@ public class PatientServiceImpl implements PatientService {
         return patientDto;
     }
 
-    /**
-     * Delete the Patient details for the id
-     *
-     * @param patientId
-     * @return No Content
-     */
     @Override
     @CacheEvict(value = "patient")
     public void deletePatientRecord(long patientId) {
@@ -120,35 +95,18 @@ public class PatientServiceImpl implements PatientService {
         }
     }
 
-    /**
-     * Retrieves all the patient details matching the given condition
-     *
-     * @param orderBy
-     * @param page
-     * @param limit
-     * @return Patient list
-     */
     @Override
     @Cacheable(value = "patient")
-    public List<PatientDto> getallpatientrecords(int page, int limit, String orderBy) {
+    public List<PatientDto> getAllPatientRecords(int page, int limit, String orderBy) {
         Sort.Direction sortDirection = orderBy.equals("des") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "userName"));
         List<Patient> patientList = patientRepository.findAll(pageable).toList();
         return patientList.stream().map(patient -> modelMapper.map(patient, PatientDto.class)).collect(Collectors.toList());
     }
 
-    /**
-     * Search all the user details matching the given condition
-     *
-     * @param search
-     * @param limit
-     * @param page
-     * @param orderBy
-     * @return List of Patient Details
-     */
     @Override
     @Cacheable(value = "patient")
-    public List<PatientDto> searchpatientrecords(String search, int page, int limit, String orderBy) {
+    public List<PatientDto> searchPatientRecords(String search, int page, int limit, String orderBy) {
         Sort.Direction sortDirection = orderBy.equals("des") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "userName"));
         List<Patient> patientList = patientRepository.findByUserName(search, pageable).toList();

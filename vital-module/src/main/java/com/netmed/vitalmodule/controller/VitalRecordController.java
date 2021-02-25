@@ -1,6 +1,5 @@
 package com.netmed.vitalmodule.controller;
 
-
 import com.netmed.vitalmodule.aop.LogExecutionTime;
 import com.netmed.vitalmodule.dto.VitalRecordDto;
 import com.netmed.vitalmodule.service.VitalRecordService;

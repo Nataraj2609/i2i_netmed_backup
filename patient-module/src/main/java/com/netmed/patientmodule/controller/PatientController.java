@@ -87,12 +87,12 @@ public class PatientController {
      * @return List of Patient Details
      */
     @ApiOperation(value = "Api Endpoint to retrieve all the Patient details")
-    @GetMapping("getallpatientrecords")
+    @GetMapping("getAllPatientRecords")
     @LogExecutionTime
-    public List<PatientDto> getallpatientrecords(@RequestParam(name = "page", defaultValue = "0") int page,
+    public List<PatientDto> getAllPatientRecords(@RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "limit", defaultValue = "10") int limit,
                                                  @RequestParam(name = "orderBy", defaultValue = "asc") String orderBy) {
-        return patientService.getallpatientrecords(page, limit, orderBy);
+        return patientService.getAllPatientRecords(page, limit, orderBy);
     }
 
     /**
@@ -105,12 +105,12 @@ public class PatientController {
      * @return List of Patient Details
      */
     @ApiOperation(value = "Api Endpoint to search for the Patient record - Only using User name")
-    @GetMapping("searchpatientrecords")
+    @GetMapping("searchPatientRecords")
     @LogExecutionTime
-    public List<PatientDto> searchpatientrecords(@RequestParam(name = "search") String search,
+    public List<PatientDto> searchPatientRecords(@RequestParam(name = "search") String search,
                                                  @RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "limit", defaultValue = "10") int limit,
                                                  @RequestParam(name = "orderBy", defaultValue = "asc") String orderBy) {
-        return patientService.searchpatientrecords(search, page, limit, orderBy);
+        return patientService.searchPatientRecords(search, page, limit, orderBy);
     }
 }

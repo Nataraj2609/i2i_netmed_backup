@@ -39,12 +39,6 @@ public class UserServiceImpl implements UserService {
 
     private final ModelMapper modelMapper;
 
-    /**
-     * createUser Saves the user details
-     *
-     * @param userDto
-     * @return Response status with saved user record
-     */
     @Override
     @CachePut(value = "user")
     public UserDto createUser(UserDto userDto) {
@@ -57,12 +51,6 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(userEntity, UserDto.class);
     }
 
-    /**
-     * Get the user details based on id
-     *
-     * @param userId
-     * @return Requested User Detail
-     */
     @Override
     @Cacheable(value = "user")
     public UserDto getUser(long userId) {
@@ -73,12 +61,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    /**
-     * Update Service for updating the user details for the id
-     *
-     * @param userDto
-     * @return Requested User Detail
-     */
     @Override
     @CachePut(value = "user")
     public UserDto updateUser(UserDto userDto) {
@@ -93,12 +75,6 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(oldUserEntity, UserDto.class);
     }
 
-    /**
-     * Delete the user details for the id
-     *
-     * @param userId
-     * @return No Content
-     */
     @Override
     @CacheEvict(value = "user")
     public void deleteUser(long userId) {
@@ -109,14 +85,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    /**
-     * Retrieves all the user details matching the given condition
-     *
-     * @param orderBy
-     * @param page
-     * @param limit
-     * @return user list
-     */
     @Override
     @Cacheable(value = "user")
     public List<UserDto> getAllUsers(int page, int limit, String orderBy) {
@@ -126,15 +94,6 @@ public class UserServiceImpl implements UserService {
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
-    /**
-     * Search all the user details matching the given condition
-     *
-     * @param search
-     * @param limit
-     * @param page
-     * @param orderBy
-     * @return List of User Details
-     */
     @Override
     @Cacheable(value = "user")
     public List<UserDto> searchUser(String search, int page, int limit, String orderBy) {
@@ -144,12 +103,6 @@ public class UserServiceImpl implements UserService {
         return userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
-    /**
-     * Search all the user details matching the given condition (Native Query)
-     *
-     * @param search
-     * @return List of User Details
-     */
     @Override
     @Cacheable(value = "user")
     public List<UserDto> search(String search) {
@@ -158,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long getUserIdByUserName(String userName) {
+    public Long getUserIdByUserName(String userName) {
         long userId = userRepository.findUserIdByUserName(userName);
         return userId;
     }
