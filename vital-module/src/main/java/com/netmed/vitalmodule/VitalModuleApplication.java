@@ -9,6 +9,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/*
+ * VitalModuleApplication is the Vital Module of Netmed product
+ *
+ */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
@@ -18,8 +22,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaAuditing
 public class VitalModuleApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(VitalModuleApplication.class, args);
-	}
+
+    /*
+     * Entry Point of the Vital Module of Netmed product
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(VitalModuleApplication.class, args);
+    }
 
 }

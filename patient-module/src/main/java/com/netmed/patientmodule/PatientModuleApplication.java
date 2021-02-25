@@ -9,6 +9,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/*
+ * PatientModuleApplication is the patient Module of Netmed product
+ *
+ */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
@@ -17,6 +21,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @RefreshScope
 public class PatientModuleApplication {
+
+    /*
+     * Entry Point of the Patient Module of Netmed product
+     *
+     */
     public static void main(String[] args) {
         SpringApplication.run(PatientModuleApplication.class, args);
     }

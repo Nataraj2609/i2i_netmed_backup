@@ -13,9 +13,6 @@ import org.springframework.stereotype.Repository;
  * @created 04/02/2021
  */
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, Long> {
+public interface PatientRepository extends JpaRepository<Patient, Long>, CustomPatientRepository {
 
-    boolean existsByUserId(long userId);
-
-    Page<Patient> findByUserName(String search, Pageable pageable);
 }

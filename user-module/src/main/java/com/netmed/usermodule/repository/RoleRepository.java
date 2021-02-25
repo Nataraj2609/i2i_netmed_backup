@@ -11,6 +11,5 @@ import org.springframework.stereotype.Repository;
  * @created 04/02/2021
  */
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findByRoleName(String roleName);
+public interface RoleRepository extends JpaRepository<Role, Long>, CustomRoleRepository {
 }

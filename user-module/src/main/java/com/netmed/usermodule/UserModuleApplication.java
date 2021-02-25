@@ -8,6 +8,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/*
+ * UserModuleApplication is the User Module of Netmed product
+ *
+ */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
@@ -16,6 +20,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RefreshScope
 public class UserModuleApplication {
 
+    /*
+     * Entry Point of the User Module of Netmed product
+     *
+     */
     public static void main(String[] args) {
         SpringApplication.run(UserModuleApplication.class, args);
     }

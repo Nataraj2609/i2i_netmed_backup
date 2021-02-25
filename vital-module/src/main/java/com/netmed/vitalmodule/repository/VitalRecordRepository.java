@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
  * @created 14/02/2021
  */
 @Repository
-public interface VitalRecordRepository extends JpaRepository<VitalRecord, Long> {
-
-    boolean existsByPatientId(long patientId);
+public interface VitalRecordRepository extends JpaRepository<VitalRecord, Long>, CustomVitalRecordRepository {
 
 }
