@@ -9,8 +9,8 @@ import com.netmed.vitalmodule.exception.VitalRecordNotFoundException;
 import com.netmed.vitalmodule.model.VitalRecord;
 import com.netmed.vitalmodule.repository.VitalRecordRepository;
 import com.netmed.vitalmodule.service.VitalRecordService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,17 +29,14 @@ import java.util.stream.Collectors;
  * @created 12/02/2021
  */
 @Service
+@RequiredArgsConstructor
 public class VitalRecordServiceImpl implements VitalRecordService {
 
-    @Autowired
-    VitalRecordRepository vitalRecordRepository;
+    private final VitalRecordRepository vitalRecordRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    UserClientProxy userClientProxy;
-
+    private final UserClientProxy userClientProxy;
 
     /**
      * createPatientVitalRecord Saves the Patient vital details

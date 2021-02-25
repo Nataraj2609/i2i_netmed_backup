@@ -4,7 +4,7 @@ import com.netmed.patientmodule.aop.LogExecutionTime;
 import com.netmed.patientmodule.dto.PatientDto;
 import com.netmed.patientmodule.service.PatientService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +19,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/netmed-patient-api/v1")
+@RequiredArgsConstructor
 public class PatientController {
 
-    @Autowired
-    PatientService patientService;
+    private final PatientService patientService;
 
     /**
      * Saves the Patient details

@@ -8,8 +8,8 @@ import com.netmed.patientmodule.exception.UserNotFoundException;
 import com.netmed.patientmodule.model.Patient;
 import com.netmed.patientmodule.repository.PatientRepository;
 import com.netmed.patientmodule.service.PatientService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,16 +29,14 @@ import java.util.stream.Collectors;
  * @created 04/02/2021
  */
 @Service
+@RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
-    @Autowired
-    PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    UserClientProxy userClientProxy;
+    private final UserClientProxy userClientProxy;
 
     /**
      * createPatientRecord Saves the Patient details

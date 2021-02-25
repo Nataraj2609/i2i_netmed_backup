@@ -4,7 +4,7 @@ import com.netmed.usermodule.aop.LogExecutionTime;
 import com.netmed.usermodule.dto.UserDto;
 import com.netmed.usermodule.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +20,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/netmed-user-api/v1")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     /**
      * Saves the user details

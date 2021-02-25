@@ -8,8 +8,8 @@ import com.netmed.usermodule.model.User;
 import com.netmed.usermodule.repository.RoleRepository;
 import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,16 +30,14 @@ import java.util.stream.Collectors;
  * @created 04/02/2021
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     /**
      * createUser Saves the user details

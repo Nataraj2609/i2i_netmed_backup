@@ -5,7 +5,7 @@ import com.netmed.vitalmodule.aop.LogExecutionTime;
 import com.netmed.vitalmodule.dto.VitalRecordDto;
 import com.netmed.vitalmodule.service.VitalRecordService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +20,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/netmed-vital-api/v1")
+@RequiredArgsConstructor
 public class VitalRecordController {
 
-    @Autowired
-    VitalRecordService vitalRecordService;
+    private final VitalRecordService vitalRecordService;
 
     /**
      * Saves the Patient Vital details
