@@ -1,5 +1,14 @@
 # i2i_netmed_backup
 
+Patient & Vital module are enabled with Basic Auth
+
+Username / Password : i2i/123
+
+# Open Bugs:
+
+1.In Feign Call, need to apply circuit breaker pattern
+2.In Feign Call, Need to add Authentication Header in order to make a Call to User-Module (which is unsecured as of now)
+
 
 ## i2i_Netmed_Vital_Sign_Module
 
@@ -24,7 +33,7 @@ Blood Sugar level : 120 to 300 (3 Hours after eating)
 
 
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+<!--- ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)--->
 
 
 
