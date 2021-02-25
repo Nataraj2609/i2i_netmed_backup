@@ -19,7 +19,7 @@ import java.util.List;
  * @created 04/02/2021
  */
 @RestController
-@RequestMapping("/netmed-user-api/v1")
+@RequestMapping("/netmed-user-api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -87,7 +87,7 @@ public class UserController {
      * @param orderBy
      * @return List of User Details
      */
-    @GetMapping("getallusers")
+    @GetMapping("getAllUsers")
     @ApiOperation(value = "Api Endpoint to retrieve all the User details")
     @LogExecutionTime
     public List<UserDto> getAllUsers(@RequestParam(name = "page", defaultValue = "0") int page,
@@ -105,7 +105,7 @@ public class UserController {
      * @param orderBy
      * @return List of User Details
      */
-    @GetMapping("searchuser")
+    @GetMapping("searchUser")
     @ApiOperation(value = "Api Endpoint to search for the User - Only using User name")
     @LogExecutionTime
     public List<UserDto> searchUser(@RequestParam(name = "search") String search,
