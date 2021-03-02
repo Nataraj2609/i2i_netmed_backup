@@ -18,7 +18,7 @@ import java.util.List;
  * @created 04/02/2021
  */
 @RestController
-@RequestMapping("/netmed-vital-api/v1/vital-record")
+@RequestMapping("/netmed-vital-api/v1/vital-records")
 @RequiredArgsConstructor
 public class VitalRecordController {
 

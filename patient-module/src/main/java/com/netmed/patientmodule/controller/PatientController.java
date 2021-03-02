@@ -18,7 +18,7 @@ import java.util.List;
  * @created 04/02/2021
  */
 @RestController
-@RequestMapping("/netmed-patient-api/v1/patient")
+@RequestMapping("/netmed-patient-api/v1/patients")
 @RequiredArgsConstructor
 public class PatientController {
 
