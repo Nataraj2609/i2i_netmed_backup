@@ -2,6 +2,7 @@ package com.netmed.patientmodule.service;
 
 
 import com.netmed.patientmodule.dto.PatientDto;
+import com.netmed.patientmodule.dto.UserDto;
 
 import java.util.List;
 

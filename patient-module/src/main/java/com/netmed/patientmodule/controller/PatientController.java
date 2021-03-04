@@ -87,7 +87,7 @@ public class PatientController {
      * @return List of Patient Details
      */
     @ApiOperation(value = "Api Endpoint to retrieve all the Patient details")
-    @GetMapping("getAllPatientRecords")
+    @GetMapping("getAll")
     @LogExecutionTime
     public List<PatientDto> getAllPatientRecords(@RequestParam(name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "limit", defaultValue = "10") int limit,
@@ -105,7 +105,7 @@ public class PatientController {
      * @return List of Patient Details
      */
     @ApiOperation(value = "Api Endpoint to search for the Patient record - Only using User name")
-    @GetMapping("searchPatientRecords")
+    @GetMapping("search")
     @LogExecutionTime
     public List<PatientDto> searchPatientRecords(@RequestParam(name = "search") String search,
                                                  @RequestParam(name = "page", defaultValue = "0") int page,

@@ -1,5 +1,6 @@
 package com.netmed.usermodule.serviceImpl;
 
+import com.netmed.usermodule.config.RabbitMqConfig;
 import com.netmed.usermodule.dto.UserDto;
 import com.netmed.usermodule.exception.DuplicateUserRecordFoundException;
 import com.netmed.usermodule.exception.UserNotFoundException;
@@ -10,6 +11,7 @@ import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -39,6 +41,8 @@ public class UserServiceImpl implements UserService {
 
     private final ModelMapper modelMapper;
 
+    private final RabbitTemplate rabbitTemplate;
+
     @Override
     @CachePut(value = "user")
     public UserDto createUser(UserDto userDto) {
@@ -48,7 +52,9 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUserName(userEntity.getUserName()))
             throw new DuplicateUserRecordFoundException();
         userEntity = userRepository.save(userEntity);
-        return modelMapper.map(userEntity, UserDto.class);
+        UserDto createdUserDto = modelMapper.map(userEntity, UserDto.class);
+        rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, createdUserDto);
+        return createdUserDto;
     }
 
     @Override

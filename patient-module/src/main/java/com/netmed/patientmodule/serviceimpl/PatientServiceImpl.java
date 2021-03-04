@@ -1,7 +1,9 @@
 package com.netmed.patientmodule.serviceimpl;
 
 import com.netmed.patientmodule.client.UserClientProxy;
+import com.netmed.patientmodule.config.RabbitMqConfig;
 import com.netmed.patientmodule.dto.PatientDto;
+import com.netmed.patientmodule.dto.UserDto;
 import com.netmed.patientmodule.exception.DuplicatePatientRecordFoundException;
 import com.netmed.patientmodule.exception.PatientDetailsNotFoundException;
 import com.netmed.patientmodule.exception.UserNotFoundException;
@@ -10,6 +12,8 @@ import com.netmed.patientmodule.repository.PatientRepository;
 import com.netmed.patientmodule.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +42,8 @@ public class PatientServiceImpl implements PatientService {
     private final ModelMapper modelMapper;
 
     private final UserClientProxy userClientProxy;
+
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     @CachePut(value = "patient")
@@ -111,5 +118,21 @@ public class PatientServiceImpl implements PatientService {
         Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "userName"));
         List<Patient> patientList = patientRepository.findByUserName(search, pageable).toList();
         return patientList.stream().map(patient -> modelMapper.map(patient, PatientDto.class)).collect(Collectors.toList());
+    }
+
+    /**
+     * Listener function to listen for RabbitMq Messages
+     *
+     * @param userDto
+     */
+    @RabbitListener(queues = RabbitMqConfig.QUEUE_NAME)
+    public void messageListener(UserDto userDto) {
+        System.out.println("RabbitMq ON");
+        System.out.println();
+        System.out.println("NEW USER: " + userDto.getUserName() + " has been created by "
+                + userDto.getCreatedBy());
+        System.out.println("Please book an appointment to Collect Patient and Vital Details");
+        System.out.println();
+        System.out.println("RabbitMq OFF");
     }
 }
