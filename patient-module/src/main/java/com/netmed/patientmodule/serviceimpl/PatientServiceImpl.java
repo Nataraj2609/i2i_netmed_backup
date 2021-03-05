@@ -17,12 +17,12 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -134,5 +134,21 @@ public class PatientServiceImpl implements PatientService {
         System.out.println("Please book an appointment to Collect Patient and Vital Details");
         System.out.println();
         System.out.println("RabbitMq OFF");
+    }
+
+    /**
+     * Listener function to listen for Kafka Stream Messages
+     *
+     * @param userDto
+     */
+    @StreamListener("input")
+    public void kafkaMessageListener(UserDto userDto) {
+        System.out.println("Kafka ON");
+        System.out.println();
+        System.out.println("Kafka - NEW USER: " + userDto.getUserName() + " has been created by "
+                + userDto.getCreatedBy());
+        System.out.println("Please book an appointment to Collect Patient and Vital Details");
+        System.out.println();
+        System.out.println("kafka OFF");
     }
 }

@@ -19,6 +19,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +45,8 @@ public class UserServiceImpl implements UserService {
 
     private final RabbitTemplate rabbitTemplate;
 
+    private final MessageChannel output;
+
     @Override
     @CachePut(value = "user")
     public UserDto createUser(UserDto userDto) {
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
         userEntity = userRepository.save(userEntity);
         UserDto createdUserDto = modelMapper.map(userEntity, UserDto.class);
         rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, createdUserDto);
+        output.send(MessageBuilder.withPayload("Kafka Payload "+createdUserDto).build());
         return createdUserDto;
     }
 
