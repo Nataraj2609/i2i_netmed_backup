@@ -43,8 +43,6 @@ public class PatientServiceImpl implements PatientService {
 
     private final UserClientProxy userClientProxy;
 
-    private final RabbitTemplate rabbitTemplate;
-
     @Override
     @CachePut(value = "patient")
     public PatientDto createPatientRecord(PatientDto patientDto) {
