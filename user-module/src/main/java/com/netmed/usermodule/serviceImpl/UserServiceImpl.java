@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         userEntity = userRepository.save(userEntity);
         UserDto createdUserDto = modelMapper.map(userEntity, UserDto.class);
         rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, createdUserDto);
-        output.send(MessageBuilder.withPayload("Kafka Payload "+createdUserDto).build());
+        output.send(MessageBuilder.withPayload(createdUserDto).build());
         return createdUserDto;
     }
 
