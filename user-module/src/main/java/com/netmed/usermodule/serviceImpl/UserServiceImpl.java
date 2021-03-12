@@ -1,5 +1,6 @@
 package com.netmed.usermodule.serviceImpl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netmed.usermodule.config.RabbitMqConfig;
 import com.netmed.usermodule.dto.UserDto;
 import com.netmed.usermodule.exception.DuplicateUserRecordFoundException;
@@ -10,6 +11,16 @@ import com.netmed.usermodule.repository.RoleRepository;
 import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
+import org.elasticsearch.index.reindex.UpdateByQueryRequest;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,7 +34,9 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,6 +60,12 @@ public class UserServiceImpl implements UserService {
 
     private final MessageChannel output;
 
+    private final RestHighLevelClient restHighLevelClient;
+
+    private final String INDEX = "netmed_user";
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     @CachePut(value = "user")
     public UserDto createUser(UserDto userDto) {
@@ -56,6 +75,16 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUserName(userEntity.getUserName()))
             throw new DuplicateUserRecordFoundException();
         userEntity = userRepository.save(userEntity);
+
+        Map<String, Object> dataMap = objectMapper.convertValue(userEntity, Map.class);
+        IndexRequest indexRequest = new IndexRequest(INDEX).source(dataMap);
+        try {
+            IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         UserDto createdUserDto = modelMapper.map(userEntity, UserDto.class);
         rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, createdUserDto);
         output.send(MessageBuilder.withPayload(createdUserDto).build());
@@ -81,8 +110,21 @@ public class UserServiceImpl implements UserService {
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
         oldUserEntity.setRole(roleEntity);
         oldUserEntity.setPassword(userDto.getPassword());
-
         oldUserEntity = userRepository.save(oldUserEntity);
+
+
+        Map<String, Object> params = objectMapper.convertValue(oldUserEntity, Map.class);
+        UpdateByQueryRequest request = new UpdateByQueryRequest(INDEX);
+        request.setConflicts("proceed");
+        request.setQuery(new TermQueryBuilder("userId", oldUserEntity.getUserId()));
+        request.setScript(new Script(ScriptType.INLINE, "painless", "ctx._source.putAll(params)", params));
+        try {
+            BulkByScrollResponse bulkResponse = restHighLevelClient.updateByQuery(request, RequestOptions.DEFAULT);
+            System.out.println("Updated Response doc : "+bulkResponse.getUpdated());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return modelMapper.map(oldUserEntity, UserDto.class);
     }
 
@@ -91,7 +133,15 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(long userId) {
         try {
             userRepository.deleteById(userId);
-        } catch (EmptyResultDataAccessException e) {
+
+            DeleteByQueryRequest request = new DeleteByQueryRequest(INDEX);
+            request.setConflicts("proceed");
+            request.setQuery(new TermQueryBuilder("userId", userId));
+            BulkByScrollResponse bulkResponse = restHighLevelClient.deleteByQuery(request, RequestOptions.DEFAULT);
+            System.out.println("------>  Deleted Docs = " + bulkResponse.getDeleted());
+
+
+        } catch (EmptyResultDataAccessException | IOException e) {
             throw new UserNotFoundException();
         }
     }
