@@ -11,16 +11,25 @@ import com.netmed.usermodule.repository.RoleRepository;
 import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.index.reindex.UpdateByQueryRequest;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
@@ -35,6 +44,8 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -120,7 +131,7 @@ public class UserServiceImpl implements UserService {
         request.setScript(new Script(ScriptType.INLINE, "painless", "ctx._source.putAll(params)", params));
         try {
             BulkByScrollResponse bulkResponse = restHighLevelClient.updateByQuery(request, RequestOptions.DEFAULT);
-            System.out.println("Updated Response doc : "+bulkResponse.getUpdated());
+            System.out.println("Updated Response doc : " + bulkResponse.getUpdated());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -175,5 +186,61 @@ public class UserServiceImpl implements UserService {
     public Long getUserIdByUserName(String userName) {
         long userId = userRepository.findUserIdByUserName(userName);
         return userId;
+    }
+
+    @Override
+    public List<UserDto> doElasticSearch(String query) {
+        List<UserDto> searchUserDtoList = new ArrayList<>();
+        List<User> searchUserList = new ArrayList<>();
+
+        SearchRequest searchRequest = new SearchRequest(INDEX);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchRequest.source(searchSourceBuilder);
+
+        try {
+            SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+            RestStatus status = searchResponse.status();
+            TimeValue took = searchResponse.getTook();
+            Boolean terminatedEarly = searchResponse.isTerminatedEarly();
+            boolean timedOut = searchResponse.isTimedOut();
+
+            SearchHits hits = searchResponse.getHits();
+            TotalHits totalHits = hits.getTotalHits();
+            System.out.println("totalHits --> " + totalHits);
+            long numHits = totalHits.value;
+            TotalHits.Relation relation = totalHits.relation;
+            float maxScore = hits.getMaxScore();
+
+            SearchHit[] searchHits = hits.getHits();
+            for (SearchHit hit : searchHits) {
+                String index = hit.getIndex();
+                String id = hit.getId();
+                float score = hit.getScore();
+
+//                String sourceAsString = hit.getSourceAsString();
+//                User userEntity = objectMapper.readValue(sourceAsString, User.class);
+//                searchUserList.add(userEntity);
+
+                Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+
+                User userEntity = new User();
+                userEntity.setUserName((String) sourceAsMap.get("userName"));
+                userEntity.setPassword((String) sourceAsMap.get("password"));
+                userEntity.setRole(new Role(2, "Patient"));
+                userEntity.setCreatedBy((String) sourceAsMap.get("createdBy"));
+                userEntity.setCreatedDate(LocalDateTime.now());
+                userEntity.setLastModifiedDate(LocalDateTime.now());
+                userEntity.setLastModifiedBy((String) sourceAsMap.get("lastModifiedBy"));
+                searchUserList.add(userEntity);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        searchUserList.stream().forEach(userEntity -> {
+            searchUserDtoList.add(modelMapper.map(userEntity, UserDto.class));
+        });
+        return searchUserDtoList;
     }
 }

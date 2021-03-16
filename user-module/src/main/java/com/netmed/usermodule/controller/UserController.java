@@ -140,4 +140,18 @@ public class UserController {
     public Long getUserIdByUserName(@RequestParam String userName) {
         return userService.getUserIdByUserName(userName);
     }
+
+
+    /**
+     * Search all the details matching the given condition using ElasticSearch Elite Api
+     *
+     * @param query
+     * @return List of User Details
+     */
+    @GetMapping("doElasticSearch")
+    @ApiOperation(value = "Api Endpoint to search for the details matching the given condition using ElasticSearch Elite Api")
+    @LogExecutionTime
+    public List<UserDto> elasticSearch(@RequestParam(name = "q") String query) {
+        return userService.doElasticSearch(query);
+    }
 }
