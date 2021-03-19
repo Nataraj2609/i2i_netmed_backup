@@ -1,0 +1,423 @@
+2021-03-19 10:46:05.180  INFO 20688 --- [main] c.n.usermodule.UserModuleApplication     : The following profiles are active: dev
+2021-03-19 10:46:08.987  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-03-19 10:46:08.994  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2021-03-19 10:46:09.071  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Elasticsearch - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.RoleRepository. If you want this repository to be a Elasticsearch repository, consider annotating your entities with one of these annotations: org.springframework.data.elasticsearch.annotations.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.elasticsearch.repository.ElasticsearchRepository, org.springframework.data.elasticsearch.repository.ElasticsearchRepository.
+2021-03-19 10:46:09.077  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Elasticsearch - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.UserRepository. If you want this repository to be a Elasticsearch repository, consider annotating your entities with one of these annotations: org.springframework.data.elasticsearch.annotations.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.elasticsearch.repository.ElasticsearchRepository, org.springframework.data.elasticsearch.repository.ElasticsearchRepository.
+2021-03-19 10:46:09.079  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 76 ms. Found 0 Elasticsearch repository interfaces.
+2021-03-19 10:46:09.089  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-03-19 10:46:09.091  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2021-03-19 10:46:09.136  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Reactive Elasticsearch - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.RoleRepository. If you want this repository to be a Reactive Elasticsearch repository, consider annotating your entities with one of these annotations: org.springframework.data.elasticsearch.annotations.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository.
+2021-03-19 10:46:09.138  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Reactive Elasticsearch - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.UserRepository. If you want this repository to be a Reactive Elasticsearch repository, consider annotating your entities with one of these annotations: org.springframework.data.elasticsearch.annotations.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository.
+2021-03-19 10:46:09.139  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2021-03-19 10:46:09.192  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-03-19 10:46:09.196  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-03-19 10:46:09.816  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 610 ms. Found 2 JPA repository interfaces.
+2021-03-19 10:46:09.836  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-03-19 10:46:09.838  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+2021-03-19 10:46:09.862  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.RoleRepository. If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository.
+2021-03-19 10:46:09.864  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data MongoDB - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.UserRepository. If you want this repository to be a MongoDB repository, consider annotating your entities with one of these annotations: org.springframework.data.mongodb.core.mapping.Document (preferred), or consider extending one of the following types with your repository: org.springframework.data.mongodb.repository.MongoRepository.
+2021-03-19 10:46:09.865  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 0 MongoDB repository interfaces.
+2021-03-19 10:46:09.901  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-03-19 10:46:09.905  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-03-19 10:46:09.956  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.RoleRepository. If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository.
+2021-03-19 10:46:09.957  INFO 20688 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.netmed.usermodule.repository.UserRepository. If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository.
+2021-03-19 10:46:09.958  INFO 20688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 0 Redis repository interfaces.
+2021-03-19 10:46:10.922  INFO 20688 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=39e4e911-b5d4-3923-92a0-b4682a04b070
+2021-03-19 10:46:10.961  INFO 20688 --- [main] o.s.c.a.ConfigurationClassEnhancer       : @Bean method FunctionConfiguration.po is non-static and returns an object assignable to Spring's BeanFactoryPostProcessor interface. This will result in a failure to process annotations such as @Autowired, @Resource and @PostConstruct within the method's declaring @Configuration class. Add the 'static' modifier to this method to avoid these container lifecycle issues; see @Bean javadoc for complete details.
+2021-03-19 10:46:10.988  INFO 20688 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2021-03-19 10:46:11.003  INFO 20688 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2021-03-19 10:46:11.014  INFO 20688 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2021-03-19 10:46:11.198  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.retry.annotation.RetryConfiguration' of type [org.springframework.retry.annotation.RetryConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:12.052  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:12.063  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'integrationDisposableAutoCreatedBeans' of type [org.springframework.integration.config.annotation.Disposables] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:12.172  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.stream.config.BindersHealthIndicatorAutoConfiguration' of type [org.springframework.cloud.stream.config.BindersHealthIndicatorAutoConfiguration$$EnhancerBySpringCGLIB$$1593b107] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:12.205  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'bindersHealthContributor' of type [org.springframework.cloud.stream.config.BindersHealthIndicatorAutoConfiguration$BindersHealthContributor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:12.229  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'bindersHealthIndicatorListener' of type [org.springframework.cloud.stream.config.BindersHealthIndicatorAutoConfiguration$BindersHealthIndicatorListener] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:12.366  INFO 20688 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-03-19 10:46:13.577  INFO 20688 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9000 (http)
+2021-03-19 10:46:13.606  INFO 20688 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-03-19 10:46:13.607  INFO 20688 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.41]
+2021-03-19 10:46:14.124  INFO 20688 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-03-19 10:46:14.124  INFO 20688 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8866 ms
+2021-03-19 10:46:17.153  INFO 20688 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-03-19 10:46:17.170  WARN 20688 --- [main] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2021-03-19 10:46:18.494  INFO 20688 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-03-19 10:46:18.744  INFO 20688 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-03-19 10:46:19.185  INFO 20688 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.27.Final
+2021-03-19 10:46:20.136  INFO 20688 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-03-19 10:46:20.558  INFO 20688 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2021-03-19 10:46:23.069  INFO 20688 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-03-19 10:46:23.095  INFO 20688 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-03-19 10:46:27.400  WARN 20688 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-03-19 10:46:28.213  INFO 20688 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2021-03-19 10:46:28.378  INFO 20688 --- [cluster-ClusterId{value='605433ac992b6a7cb20038d4', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:151}] to localhost:27017
+2021-03-19 10:46:28.380  INFO 20688 --- [cluster-ClusterId{value='605433ac992b6a7cb20038d4', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=9, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=60798900}
+2021-03-19 10:46:28.380  INFO 20688 --- [cluster-rtt-ClusterId{value='605433ac992b6a7cb20038d4', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:152}] to localhost:27017
+2021-03-19 10:46:28.470  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class java.time.LocalDateTime to class org.joda.time.LocalDateTime as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:28.536  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class java.time.LocalDateTime to class org.joda.time.LocalDateTime as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:29.869  INFO 20688 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-03-19 10:46:29.994  INFO 20688 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 22 endpoint(s) beneath base path '/actuator'
+2021-03-19 10:46:30.325  INFO 20688 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-03-19 10:46:30.603  INFO 20688 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-03-19 10:46:31.075  INFO 20688 --- [main] o.j.s.b.m.JaversMongoAutoConfiguration   : Starting javers-spring-boot-starter-mongo ...
+2021-03-19 10:46:31.078  INFO 20688 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms'}
+2021-03-19 10:46:31.087  INFO 20688 --- [main] o.j.s.b.m.JaversMongoAutoConfiguration   : connecting Javers to Mongo database 'usermodule_auditing' configured in javers.mongodb properties
+2021-03-19 10:46:31.090  INFO 20688 --- [cluster-ClusterId{value='605433af992b6a7cb20038d5', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:3, serverValue:153}] to localhost:27017
+2021-03-19 10:46:31.090  INFO 20688 --- [cluster-rtt-ClusterId{value='605433af992b6a7cb20038d5', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:4, serverValue:154}] to localhost:27017
+2021-03-19 10:46:31.090  INFO 20688 --- [cluster-ClusterId{value='605433af992b6a7cb20038d5', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=9, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=4217700}
+2021-03-19 10:46:31.324  INFO 20688 --- [main] org.javers.core.JaversBuilder            : mappingStyle: FIELD
+2021-03-19 10:46:31.336  INFO 20688 --- [main] org.javers.core.JaversBuilder            : loading GuavaAddOns ...
+2021-03-19 10:46:31.350  INFO 20688 --- [main] org.javers.core.JaversBuilder            : loading JodaAddOns ...
+2021-03-19 10:46:31.642  INFO 20688 --- [main] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:5, serverValue:155}] to localhost:27017
+2021-03-19 10:46:31.726  INFO 20688 --- [main] org.javers.core.JaversBuilder            : JaVers instance started in 604 ms
+2021-03-19 10:46:32.169  INFO 20688 --- [main] onConfiguration$FunctionBindingRegistrar : Functional binding is disabled due to the presense of @EnableBinding annotation in your configuration
+2021-03-19 10:46:39.959  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.geo.Point to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.960  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.geo.Point as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.961  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoPoint to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.961  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoPoint as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.961  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface org.springframework.data.elasticsearch.core.geo.GeoJson to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.962  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to interface org.springframework.data.elasticsearch.core.geo.GeoJson as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.962  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonPoint to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.962  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonPoint as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.963  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonMultiPoint to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.963  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonMultiPoint as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.963  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonLineString to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.963  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonLineString as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.964  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonMultiLineString to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.964  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonMultiLineString as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.964  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonPolygon to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.964  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonPolygon as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.965  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonMultiPolygon to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.965  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonMultiPolygon as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.966  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from class org.springframework.data.elasticsearch.core.geo.GeoJsonGeometryCollection to interface java.util.Map as writing converter although it doesn't convert to a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:39.966  WARN 20688 --- [main] o.s.data.convert.CustomConversions       : Registering converter from interface java.util.Map to class org.springframework.data.elasticsearch.core.geo.GeoJsonGeometryCollection as reading converter although it doesn't convert from a store-supported type! You might want to check your annotation setup at the converter implementation.
+2021-03-19 10:46:40.142  INFO 20688 --- [main] o.s.d.elasticsearch.support.VersionInfo  : Version Spring Data Elasticsearch: 4.1.3
+2021-03-19 10:46:40.142  INFO 20688 --- [main] o.s.d.elasticsearch.support.VersionInfo  : Version Elasticsearch Client in build: 7.9.3
+2021-03-19 10:46:40.143  INFO 20688 --- [main] o.s.d.elasticsearch.support.VersionInfo  : Version Elasticsearch Client used: 7.9.3
+2021-03-19 10:46:40.143  INFO 20688 --- [main] o.s.d.elasticsearch.support.VersionInfo  : Version Elasticsearch cluster: 7.11.1
+2021-03-19 10:46:40.143  WARN 20688 --- [main] o.s.d.elasticsearch.support.VersionInfo  : Version mismatch in between Elasticsearch Client and Cluster: 7.9.3 - 7.11.1
+2021-03-19 10:46:41.266  INFO 20688 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'catalogWatchTaskScheduler'
+2021-03-19 10:46:41.311  WARN 20688 --- [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2021-03-19 10:46:41.946  INFO 20688 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2021-03-19 10:46:41.948  INFO 20688 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'user-module-1.errorChannel' has 1 subscriber(s).
+2021-03-19 10:46:41.948  INFO 20688 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2021-03-19 10:46:41.952  INFO 20688 --- [main] o.s.c.s.binder.DefaultBinderFactory      : Creating binder: kafka
+2021-03-19 10:46:42.386  INFO 20688 --- [main] o.s.v.c.e.LeaseAwareVaultPropertySource  : Vault location [secret/user-module/dev] not resolvable: Not found
+2021-03-19 10:46:42.401  INFO 20688 --- [main] o.s.v.c.e.LeaseAwareVaultPropertySource  : Vault location [secret/application/dev] not resolvable: Not found
+2021-03-19 10:46:42.409  INFO 20688 --- [main] o.s.v.c.e.LeaseAwareVaultPropertySource  : Vault location [secret/application] not resolvable: Not found
+2021-03-19 10:46:42.409  INFO 20688 --- [main] b.c.PropertySourceBootstrapConfiguration : Located property source: [BootstrapPropertySource {name='bootstrapProperties-secret/user-module/dev'}, BootstrapPropertySource {name='bootstrapProperties-secret/user-module'}, BootstrapPropertySource {name='bootstrapProperties-secret/application/dev'}, BootstrapPropertySource {name='bootstrapProperties-secret/application'}]
+2021-03-19 10:46:42.421  INFO 20688 --- [main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+2021-03-19 10:46:43.243  INFO 20688 --- [main] c.c.c.ConfigServicePropertySourceLocator : Located environment: name=user-module, profiles=[dev], label=null, version=d280b0ed2257e142c326b07559b45b2ccdef6733, state=null
+2021-03-19 10:46:43.244  INFO 20688 --- [main] b.c.PropertySourceBootstrapConfiguration : Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/Nataraj2609/i2i_netmed_config_files/file:C:\Users\Windows\AppData\Local\Temp\config-repo-5190392905593948053\user-module-dev.yml'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/Nataraj2609/i2i_netmed_config_files/file:C:\Users\Windows\AppData\Local\Temp\config-repo-5190392905593948053\user-module.yml'}]
+2021-03-19 10:46:43.807  INFO 20688 --- [main] o.s.c.s.binder.DefaultBinderFactory      : Caching the binder: kafka
+2021-03-19 10:46:43.808  INFO 20688 --- [main] o.s.c.s.binder.DefaultBinderFactory      : Retrieving cached binder: kafka
+2021-03-19 10:46:43.937  INFO 20688 --- [main] o.s.c.s.b.k.p.KafkaTopicProvisioner      : Using kafka topic for outbound: netmed_new_user
+2021-03-19 10:46:43.944  INFO 20688 --- [main] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = 
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2021-03-19 10:46:44.207  INFO 20688 --- [main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.6.0
+2021-03-19 10:46:44.208  INFO 20688 --- [main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 62abe01bee039651
+2021-03-19 10:46:44.208  INFO 20688 --- [main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1616131004202
+2021-03-19 10:46:45.465  INFO 20688 --- [main] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values: 
+	acks = 1
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = producer-1
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = false
+	interceptor.classes = []
+	internal.auto.downgrade.txn.commit = true
+	key.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = GSSAPI
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+
+2021-03-19 10:46:45.553  INFO 20688 --- [main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.6.0
+2021-03-19 10:46:45.553  INFO 20688 --- [main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 62abe01bee039651
+2021-03-19 10:46:45.553  INFO 20688 --- [main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1616131005553
+2021-03-19 10:46:45.583  INFO 20688 --- [kafka-producer-network-thread | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: PY0GnBanSZuXQtBTWZIoGg
+2021-03-19 10:46:45.632  INFO 20688 --- [main] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
+2021-03-19 10:46:45.695  INFO 20688 --- [main] o.s.c.s.m.DirectWithAttributesChannel    : Channel 'user-module-1.output' has 1 subscriber(s).
+2021-03-19 10:46:45.751  INFO 20688 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 9000 (http) with context path ''
+2021-03-19 10:46:45.777  INFO 20688 --- [main] o.s.c.c.s.ConsulServiceRegistry          : Registering service with consul: NewService{id='user-module-9000', name='user-module', tags=[], address='I21014', meta={secure=false}, port=9000, enableTagOverride=null, check=Check{script='null', dockerContainerID='null', shell='null', interval='10s', ttl='null', http='http://I21014:9000/actuator/health', method='null', header={}, tcp='null', timeout='null', deregisterCriticalServiceAfter='null', tlsSkipVerify=null, status='null', grpc='null', grpcUseTLS=null}, checks=null}
+2021-03-19 10:46:53.574  INFO 20688 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-03-19 10:46:53.644  INFO 20688 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-03-19 10:46:53.845  INFO 20688 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-03-19 10:46:55.285  INFO 20688 --- [main] c.n.usermodule.UserModuleApplication     : Started UserModuleApplication in 65.887 seconds (JVM running for 69.522)
+2021-03-19 11:04:05.062  INFO 20688 --- [http-nio-9000-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-03-19 11:04:05.096  INFO 20688 --- [http-nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-03-19 11:04:05.686  INFO 20688 --- [http-nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 587 ms
+2021-03-19 11:04:07.894 DEBUG 20688 --- [http-nio-9000-exec-1] org.hibernate.SQL                        : 
+    select
+        user0_.user_id as user_id1_1_,
+        user0_.created_by as created_2_1_,
+        user0_.created_date as created_3_1_,
+        user0_.last_modified_by as last_mod4_1_,
+        user0_.last_modified_date as last_mod5_1_,
+        user0_.password as password6_1_,
+        user0_.role_id as role_id8_1_,
+        user0_.user_name as user_nam7_1_ 
+    from
+        netmed_user user0_ 
+    order by
+        user0_.user_name asc limit ?
+2021-03-19 11:04:08.072 DEBUG 20688 --- [http-nio-9000-exec-1] org.hibernate.SQL                        : 
+    select
+        role0_.role_id as role_id1_0_0_,
+        role0_.role_name as role_nam2_0_0_ 
+    from
+        netmed_role role0_ 
+    where
+        role0_.role_id=?
+2021-03-19 11:04:08.079 TRACE 20688 --- [http-nio-9000-exec-1] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [2]
+2021-03-19 11:04:08.103 DEBUG 20688 --- [http-nio-9000-exec-1] org.hibernate.SQL                        : 
+    select
+        role0_.role_id as role_id1_0_0_,
+        role0_.role_name as role_nam2_0_0_ 
+    from
+        netmed_role role0_ 
+    where
+        role0_.role_id=?
+2021-03-19 11:04:08.103 TRACE 20688 --- [http-nio-9000-exec-1] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [1]
+2021-03-19 11:04:08.131 DEBUG 20688 --- [http-nio-9000-exec-1] org.hibernate.SQL                        : 
+    select
+        count(user0_.user_id) as col_0_0_ 
+    from
+        netmed_user user0_
+2021-03-19 11:04:08.395  INFO 20688 --- [http-nio-9000-exec-1] c.n.u.aop.ExecutionTimeTrackerAdvice     : 1.7842155
+2021-03-19 11:04:08.402  INFO 20688 --- [http-nio-9000-exec-1] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 1784215500 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+1784215500  100%  getAllUsers
+
+2021-03-19 12:00:10.208 DEBUG 20688 --- [http-nio-9000-exec-7] org.hibernate.SQL                        : 
+    select
+        user0_.user_id as user_id1_1_,
+        user0_.created_by as created_2_1_,
+        user0_.created_date as created_3_1_,
+        user0_.last_modified_by as last_mod4_1_,
+        user0_.last_modified_date as last_mod5_1_,
+        user0_.password as password6_1_,
+        user0_.role_id as role_id8_1_,
+        user0_.user_name as user_nam7_1_ 
+    from
+        netmed_user user0_ 
+    order by
+        user0_.user_name asc limit ?
+2021-03-19 12:00:10.797 DEBUG 20688 --- [http-nio-9000-exec-7] org.hibernate.SQL                        : 
+    select
+        role0_.role_id as role_id1_0_0_,
+        role0_.role_name as role_nam2_0_0_ 
+    from
+        netmed_role role0_ 
+    where
+        role0_.role_id=?
+2021-03-19 12:00:10.848 TRACE 20688 --- [http-nio-9000-exec-7] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [2]
+2021-03-19 12:00:10.895 DEBUG 20688 --- [http-nio-9000-exec-7] org.hibernate.SQL                        : 
+    select
+        role0_.role_id as role_id1_0_0_,
+        role0_.role_name as role_nam2_0_0_ 
+    from
+        netmed_role role0_ 
+    where
+        role0_.role_id=?
+2021-03-19 12:00:10.897 TRACE 20688 --- [http-nio-9000-exec-7] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [1]
+2021-03-19 12:00:10.907 DEBUG 20688 --- [http-nio-9000-exec-7] org.hibernate.SQL                        : 
+    select
+        count(user0_.user_id) as col_0_0_ 
+    from
+        netmed_user user0_
+2021-03-19 12:00:11.218  INFO 20688 --- [http-nio-9000-exec-7] c.n.u.aop.ExecutionTimeTrackerAdvice     : 1.4302307
+2021-03-19 12:00:11.228  INFO 20688 --- [http-nio-9000-exec-7] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 1430230700 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+1430230700  100%  getAllUsers
+
+2021-03-19 12:10:42.719  INFO 20688 --- [http-nio-9000-exec-6] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.1861992
+2021-03-19 12:10:42.742  INFO 20688 --- [http-nio-9000-exec-6] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 186199200 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+186199200  100%  getAllUsers
+
+2021-03-19 12:20:52.503  INFO 20688 --- [http-nio-9000-exec-10] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.0895133
+2021-03-19 12:20:52.539  INFO 20688 --- [http-nio-9000-exec-10] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 89513300 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+089513300  100%  getAllUsers
+
+2021-03-19 12:22:18.898  INFO 20688 --- [http-nio-9000-exec-4] c.n.u.aop.ExecutionTimeTrackerAdvice     : 2.3904327
+2021-03-19 12:22:18.903  INFO 20688 --- [http-nio-9000-exec-4] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->elasticSearch': running time = 2390432700 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+2390432700  100%  elasticSearch
+
+2021-03-19 12:28:28.531  INFO 20688 --- [http-nio-9000-exec-5] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.1933681
+2021-03-19 12:28:28.549  INFO 20688 --- [http-nio-9000-exec-5] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->elasticSearch': running time = 193368100 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+193368100  100%  elasticSearch
+
+2021-03-19 12:28:41.642 DEBUG 20688 --- [http-nio-9000-exec-6] org.hibernate.SQL                        : 
+    select
+        user0_.user_id as user_id1_1_,
+        user0_.created_by as created_2_1_,
+        user0_.created_date as created_3_1_,
+        user0_.last_modified_by as last_mod4_1_,
+        user0_.last_modified_date as last_mod5_1_,
+        user0_.password as password6_1_,
+        user0_.role_id as role_id8_1_,
+        user0_.user_name as user_nam7_1_ 
+    from
+        netmed_user user0_ 
+    order by
+        user0_.user_name asc limit ?
+2021-03-19 12:28:41.780 DEBUG 20688 --- [http-nio-9000-exec-6] org.hibernate.SQL                        : 
+    select
+        role0_.role_id as role_id1_0_0_,
+        role0_.role_name as role_nam2_0_0_ 
+    from
+        netmed_role role0_ 
+    where
+        role0_.role_id=?
+2021-03-19 12:28:41.786 TRACE 20688 --- [http-nio-9000-exec-6] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [2]
+2021-03-19 12:28:41.808 DEBUG 20688 --- [http-nio-9000-exec-6] org.hibernate.SQL                        : 
+    select
+        count(user0_.user_id) as col_0_0_ 
+    from
+        netmed_user user0_
+2021-03-19 12:28:41.888  INFO 20688 --- [http-nio-9000-exec-6] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.4930084
+2021-03-19 12:28:41.889  INFO 20688 --- [http-nio-9000-exec-6] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 493008400 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+493008400  100%  getAllUsers
+
+2021-03-19 12:28:44.941  INFO 20688 --- [http-nio-9000-exec-9] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.0159751
+2021-03-19 12:28:44.943  INFO 20688 --- [http-nio-9000-exec-9] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 15975100 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+015975100  100%  getAllUsers
+
+2021-03-19 12:33:14.193  INFO 20688 --- [http-nio-9000-exec-10] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.0220092
+2021-03-19 12:33:14.210  INFO 20688 --- [http-nio-9000-exec-10] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 22009200 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+022009200  100%  getAllUsers
+
+2021-03-19 12:43:10.609  INFO 20688 --- [http-nio-9000-exec-7] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.1169215
+2021-03-19 12:43:10.692  INFO 20688 --- [http-nio-9000-exec-7] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 116921500 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+116921500  100%  getAllUsers
+
