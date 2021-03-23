@@ -421,3 +421,40 @@ ns         %     Task name
 ---------------------------------------------
 116921500  100%  getAllUsers
 
+2021-03-19 16:24:15.647 DEBUG 20688 --- [http-nio-9000-exec-5] org.hibernate.SQL                        : 
+    select
+        user0_.user_id as user_id1_1_,
+        user0_.created_by as created_2_1_,
+        user0_.created_date as created_3_1_,
+        user0_.last_modified_by as last_mod4_1_,
+        user0_.last_modified_date as last_mod5_1_,
+        user0_.password as password6_1_,
+        user0_.role_id as role_id8_1_,
+        user0_.user_name as user_nam7_1_ 
+    from
+        netmed_user user0_ 
+    order by
+        user0_.user_name asc limit ?
+2021-03-19 16:24:15.901 DEBUG 20688 --- [http-nio-9000-exec-5] org.hibernate.SQL                        : 
+    select
+        role0_.role_id as role_id1_0_0_,
+        role0_.role_name as role_nam2_0_0_ 
+    from
+        netmed_role role0_ 
+    where
+        role0_.role_id=?
+2021-03-19 16:24:15.912 TRACE 20688 --- [http-nio-9000-exec-5] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [2]
+2021-03-19 16:24:16.055 DEBUG 20688 --- [http-nio-9000-exec-5] org.hibernate.SQL                        : 
+    select
+        count(user0_.user_id) as col_0_0_ 
+    from
+        netmed_user user0_
+2021-03-19 16:24:16.281  INFO 20688 --- [http-nio-9000-exec-5] c.n.u.aop.ExecutionTimeTrackerAdvice     : 0.9914575
+2021-03-19 16:24:16.307  INFO 20688 --- [http-nio-9000-exec-5] c.n.u.aop.ExecutionTimeTrackerAdvice     : StopWatch 'UserController->getAllUsers': running time = 991457500 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+991457500  100%  getAllUsers
+
+2021-03-19 17:37:45.613  WARN 20688 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=33m51s765ms293µs300ns).
+2021-03-19 20:35:50.809  WARN 20688 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=27m3s89ms805µs900ns).

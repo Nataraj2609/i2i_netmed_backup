@@ -86,7 +86,6 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUserName(userEntity.getUserName()))
             throw new DuplicateUserRecordFoundException();
         userEntity = userRepository.save(userEntity);
-
         Map<String, Object> dataMap = objectMapper.convertValue(userEntity, Map.class);
         IndexRequest indexRequest = new IndexRequest(INDEX).source(dataMap);
         try {
@@ -94,7 +93,6 @@ public class UserServiceImpl implements UserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         UserDto createdUserDto = modelMapper.map(userEntity, UserDto.class);
         rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, createdUserDto);
@@ -150,7 +148,6 @@ public class UserServiceImpl implements UserService {
             request.setQuery(new TermQueryBuilder("userId", userId));
             BulkByScrollResponse bulkResponse = restHighLevelClient.deleteByQuery(request, RequestOptions.DEFAULT);
             System.out.println("------>  Deleted Docs = " + bulkResponse.getDeleted());
-
 
         } catch (EmptyResultDataAccessException | IOException e) {
             throw new UserNotFoundException();
