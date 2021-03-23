@@ -87,8 +87,6 @@ class UserServiceImplTest {
     @Test
     public void deleteUserTest() {
         long userId = 999;
-        Role role = new Role(2, "Patient");
-        User user = new User(userId, "John Wick", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
         userService.deleteUser(userId);
         verify(userRepository, times(1)).deleteById(userId);
     }
