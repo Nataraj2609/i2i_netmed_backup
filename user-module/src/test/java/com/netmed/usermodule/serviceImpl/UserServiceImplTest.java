@@ -21,15 +21,23 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+/**
+ * UserServiceImplTest class is used to do unit testing for Business logic of User Micro Service
+ * @author Nataraj M
+ * @CreatedOn 23 March 2021
+ */
 @SpringBootTest
 class UserServiceImplTest {
 
+    /* The UserService*/
     @Autowired
     private UserService userService;
 
+    /* The UserRepository*/
     @MockBean
     private UserRepository userRepository;
 
+    /* The ModelMapper*/
     @Autowired
     private ModelMapper modelMapper;
 
