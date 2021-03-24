@@ -1,6 +1,8 @@
 package com.netmed.vitalmodule.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -14,6 +16,8 @@ import java.time.LocalDateTime;
  * @created 04/02/2021
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto implements Serializable {
 
     /*Serializable is used because of JdkSerializationRedisSerializer used in CacheConfig - For Redis*/

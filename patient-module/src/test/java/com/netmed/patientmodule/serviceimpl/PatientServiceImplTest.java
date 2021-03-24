@@ -141,7 +141,7 @@ class PatientServiceImplTest {
                 "Doctor hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"),
                 "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
         Patient patient3 = new Patient(1, 2, "John Wick",
-                LocalDate.parse("1995-09-26"), 25, 0, "9842482716",
+                LocalDate.parse("1995-02-26"), 25, 0, "9842482716",
                 "nataraj2609@gmail.com", "UPDATED ADDRESS", 608602,
                 LocalDate.parse("2020-09-26"), LocalDate.parse("2030-09-26"),
                 "Doctor hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"),
