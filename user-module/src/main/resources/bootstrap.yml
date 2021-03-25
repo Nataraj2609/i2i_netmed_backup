@@ -21,10 +21,21 @@ spring:
       bindings:
         output:
           destination: netmed_new_user
+  datasource:
+    hikari:
+      pool-name: netmed-user-module-pool
+      maximum-pool-size: 20
+      max-lifetime: 1800000
+      idle-timeout: 30000
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: DEBUG
 server:
   port: 9000
