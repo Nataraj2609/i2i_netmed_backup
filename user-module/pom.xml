@@ -137,6 +137,16 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign.opentracing</groupId>
+            <artifactId>feign-opentracing</artifactId>
+            <version>0.4.1</version>
+        </dependency>
 
     </dependencies>
 
