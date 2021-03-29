@@ -1061,6 +1061,38 @@ Constructor injection in Junit is hard, refer
 
 ------------------------------------------------------------------------------------
 
+------------------------------------------------------------------------------------
+
+
+	mvn clean install -Dmaven.test.skip=true
+
+	mvn clean package -Dmaven.test.skip=true
+-----------------------------------------------------------------------------------------------------------------
+
+Atlassian Clover:
+
+In Pom.xml, Under <build> -- <plugins> :
+
+			<plugin>
+			    <groupId>org.openclover</groupId>
+			    <artifactId>clover-maven-plugin</artifactId>
+			    <version>4.2.0</version>
+			</plugin>
+
+mvn clean test - Runs Junit test cases alone   =>>>> BUILD SUCCESS
+
+mvn clean clover:setup test clover:aggregate clover:clover
+
+
+This will instrument your sources, build your project, run your tests and create a Clover coverage report in the target/site/clover directory.
+
+OPEN target - site - clover - index.html file in browser to view reports
+
+Achieve 90% Code Coverage
+
+-----------------------------------------------------------------------------------------------------------------
+
+
 # Distributed tracing with jaeger
 
 https://www.scalyr.com/blog/jaeger-tracing-tutorial/
@@ -1113,4 +1145,47 @@ Simply add these to application.properties
 		logging.level.com.zaxxer.hikari.HikariConfig=DEBUG 
 		logging.level.com.zaxxer.hikari=DEBUG
 
+
+
+------------------------------------------------------------------------------------
+
+Jenkins
+
+	docker run -p 8080:8080 -p 50000:50000 -v /jenkinsDirectory:/var/jenkins_home jenkins
+
+To turn on Logs, add a log.properties in a folder 'data' with contents
+
+	handlers=java.util.logging.ConsoleHandler
+	jenkins.level=FINEST
+	java.util.logging.ConsoleHandler.level=FINEST
+
+
+	docker run -d --name jenkins -p 8080:8080 -p 50000:50000 --env JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties" -v $pwd/data:/var/jenkins_home jenkins/jenkins
+
+
+Jenkins is a self-contained, open source automation server which can be used to automate all sorts of tasks related to building, testing, and delivering or deploying software.
+
+1. Access localhost:8080 for jenkins ui and input initial secret key
+
+2. Install plugins
+
+	Username: nataraj password: I21014
+			
+
+	[Lots of bugs found in Docker Jenkins & hence switched to PC version, it needs java 8 or 11 only Hence Jre 8 is installed]
+
+650755d4670940c9b32eaf4b474527d9 is the password
+------------------------------------------------------------------------------------
+
+Multi Tenant Configuration
+
+https://medium.com/swlh/multi-tenancy-implementation-using-spring-boot-hibernate-6a8e3ecb251a
+
+	1. Database per Tenant
+	2. Shared Database, Shared Schema
+	3. Shared Database, Separate Schema
+
+https://www.youtube.com/watch?v=iDogrHEo4x0&ab_channel=JavaTechie
+
+https://tech.asimio.net/2017/01/17/Multitenant-applications-using-Spring-Boot-JPA-Hibernate-and-Postgres.html
 
