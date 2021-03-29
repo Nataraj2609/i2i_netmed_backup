@@ -2,6 +2,7 @@ package com.netmed.usermodule.service;
 
 import com.netmed.usermodule.dto.UserDto;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface UserService {
      * @param userDto
      * @return Response status with saved user record
      */
-    UserDto createUser(UserDto userDto);
+    UserDto createUser(UserDto userDto) throws IOException;
 
     /**
      * Get the user details based on id
@@ -34,7 +35,7 @@ public interface UserService {
      * @param userDto
      * @return Requested User Detail
      */
-    UserDto updateUser(UserDto userDto);
+    UserDto updateUser(UserDto userDto) throws IOException;
 
     /**
      * Delete the user details for the id
@@ -42,7 +43,7 @@ public interface UserService {
      * @param userId
      * @return No Content
      */
-    void deleteUser(long userId);
+    void deleteUser(long userId) throws IOException;
 
     /**
      * Retrieves all the user details matching the given condition
@@ -81,5 +82,5 @@ public interface UserService {
      */
     Long getUserIdByUserName(String userName);
 
-    List<UserDto> doElasticSearch(String query);
+    List<UserDto> doElasticSearch(String query) throws IOException;
 }

@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ class UserServiceImplTest {
      * createUserTest method is used to do unit testing for createUser() Business logic in service class
      */
     @Test
-    public void createUserTest() {
+    public void createUserTest() throws IOException {
         Role role = new Role(2, "Patient");
         User user = new User(0, "SivaKarthik", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
         when(userRepository.save(user)).thenReturn(user);
@@ -70,7 +71,7 @@ class UserServiceImplTest {
      * updateUserTest method is used to do unit testing for updateUser() Business logic in service class
      */
     @Test
-    public void updateUserTest() {
+    public void updateUserTest() throws IOException {
         Role role = new Role(2, "Patient");
         User oldUserRecord = new User(0, "SivaKarthik", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
         when(userRepository.findByUserName(oldUserRecord.getUserName())).thenReturn(oldUserRecord);
@@ -85,7 +86,7 @@ class UserServiceImplTest {
      * deleteUserTest method is used to do unit testing for deleteUser() Business logic in service class
      */
     @Test
-    public void deleteUserTest() {
+    public void deleteUserTest() throws IOException {
         long userId = 999;
         userService.deleteUser(userId);
         verify(userRepository, times(1)).deleteById(userId);

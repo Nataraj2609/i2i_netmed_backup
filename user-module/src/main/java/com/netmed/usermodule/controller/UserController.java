@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -35,7 +36,7 @@ public class UserController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ApiOperation(value = "Api Endpoint to create the User details")
     @LogExecutionTime
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+    public UserDto createUser(@Valid @RequestBody UserDto userDto) throws IOException {
         return userService.createUser(userDto);
     }
 
@@ -61,7 +62,7 @@ public class UserController {
     @PutMapping
     @ApiOperation(value = "Api Endpoint to update the User details - Password & Role can be only updated")
     @LogExecutionTime
-    public UserDto updateUser(@Valid @RequestBody UserDto userDto) {
+    public UserDto updateUser(@Valid @RequestBody UserDto userDto) throws IOException {
         return userService.updateUser(userDto);
     }
 
@@ -75,7 +76,7 @@ public class UserController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Api Endpoint to delete the User details")
     @LogExecutionTime
-    public void deleteUser(@PathVariable long userId) {
+    public void deleteUser(@PathVariable long userId) throws IOException {
         userService.deleteUser(userId);
     }
 
@@ -151,7 +152,7 @@ public class UserController {
     @GetMapping("doElasticSearch")
     @ApiOperation(value = "Api Endpoint to search for the details matching the given condition using ElasticSearch Elite Api")
     @LogExecutionTime
-    public List<UserDto> elasticSearch(@RequestParam(name = "q") String query) {
+    public List<UserDto> elasticSearch(@RequestParam(name = "q") String query) throws IOException {
         return userService.doElasticSearch(query);
     }
 }

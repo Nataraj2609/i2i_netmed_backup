@@ -31,11 +31,12 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -77,9 +78,11 @@ public class UserServiceImpl implements UserService {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Override
     @CachePut(value = "user")
-    public UserDto createUser(UserDto userDto) {
+    public UserDto createUser(UserDto userDto) throws IOException {
         User userEntity = modelMapper.map(userDto, User.class);
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
         userEntity.setRole(roleEntity);
@@ -88,11 +91,8 @@ public class UserServiceImpl implements UserService {
         userEntity = userRepository.save(userEntity);
         Map<String, Object> dataMap = objectMapper.convertValue(userEntity, Map.class);
         IndexRequest indexRequest = new IndexRequest(INDEX).source(dataMap);
-        try {
-            IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        IndexResponse response = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+        logger.info(String.valueOf(response.getResult()));
 
         UserDto createdUserDto = modelMapper.map(userEntity, UserDto.class);
         rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, RabbitMqConfig.ROUTING_KEY, createdUserDto);
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @CachePut(value = "user")
-    public UserDto updateUser(UserDto userDto) {
+    public UserDto updateUser(UserDto userDto) throws IOException {
         if (!userRepository.existsByUserName(userDto.getUserName()))
             throw new UserNotFoundException();
         User oldUserEntity = userRepository.findByUserName(userDto.getUserName());
@@ -121,37 +121,26 @@ public class UserServiceImpl implements UserService {
         oldUserEntity.setPassword(userDto.getPassword());
         oldUserEntity = userRepository.save(oldUserEntity);
 
-
         Map<String, Object> params = objectMapper.convertValue(oldUserEntity, Map.class);
         UpdateByQueryRequest request = new UpdateByQueryRequest(INDEX);
         request.setConflicts("proceed");
         request.setQuery(new TermQueryBuilder("userId", oldUserEntity.getUserId()));
         request.setScript(new Script(ScriptType.INLINE, "painless", "ctx._source.putAll(params)", params));
-        try {
-            BulkByScrollResponse bulkResponse = restHighLevelClient.updateByQuery(request, RequestOptions.DEFAULT);
-            System.out.println("Updated Response doc : " + bulkResponse.getUpdated());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        BulkByScrollResponse bulkResponse = restHighLevelClient.updateByQuery(request, RequestOptions.DEFAULT);
+        logger.info("Updated Records Count -> " + String.valueOf(bulkResponse.getUpdated()));
         return modelMapper.map(oldUserEntity, UserDto.class);
     }
 
     @Override
     @CacheEvict(value = "user")
-    public void deleteUser(long userId) {
-        try {
-            userRepository.deleteById(userId);
+    public void deleteUser(long userId) throws IOException {
+        userRepository.deleteById(userId);
 
-            DeleteByQueryRequest request = new DeleteByQueryRequest(INDEX);
-            request.setConflicts("proceed");
-            request.setQuery(new TermQueryBuilder("userId", userId));
-            BulkByScrollResponse bulkResponse = restHighLevelClient.deleteByQuery(request, RequestOptions.DEFAULT);
-            System.out.println("------>  Deleted Docs = " + bulkResponse.getDeleted());
-
-        } catch (EmptyResultDataAccessException | IOException e) {
-            throw new UserNotFoundException();
-        }
+        DeleteByQueryRequest request = new DeleteByQueryRequest(INDEX);
+        request.setConflicts("proceed");
+        request.setQuery(new TermQueryBuilder("userId", userId));
+        BulkByScrollResponse bulkResponse = restHighLevelClient.deleteByQuery(request, RequestOptions.DEFAULT);
+        logger.info("------>  Deleted Docs = " + String.valueOf(bulkResponse.getDeleted()));
     }
 
     @Override
@@ -186,7 +175,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> doElasticSearch(String query) {
+    public List<UserDto> doElasticSearch(String query) throws IOException {
         List<UserDto> searchUserDtoList = new ArrayList<>();
         List<User> searchUserList = new ArrayList<>();
 
@@ -195,46 +184,43 @@ public class UserServiceImpl implements UserService {
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
         searchRequest.source(searchSourceBuilder);
 
-        try {
-            SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-            RestStatus status = searchResponse.status();
-            TimeValue took = searchResponse.getTook();
-            Boolean terminatedEarly = searchResponse.isTerminatedEarly();
-            boolean timedOut = searchResponse.isTimedOut();
 
-            SearchHits hits = searchResponse.getHits();
-            TotalHits totalHits = hits.getTotalHits();
-            System.out.println("totalHits --> " + totalHits);
-            long numHits = totalHits.value;
-            TotalHits.Relation relation = totalHits.relation;
-            float maxScore = hits.getMaxScore();
+        SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        RestStatus status = searchResponse.status();
+        TimeValue took = searchResponse.getTook();
+        Boolean terminatedEarly = searchResponse.isTerminatedEarly();
+        boolean timedOut = searchResponse.isTimedOut();
 
-            SearchHit[] searchHits = hits.getHits();
-            for (SearchHit hit : searchHits) {
-                String index = hit.getIndex();
-                String id = hit.getId();
-                float score = hit.getScore();
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        logger.info("totalHits --> " + totalHits);
+        long numHits = totalHits.value;
+        TotalHits.Relation relation = totalHits.relation;
+        float maxScore = hits.getMaxScore();
 
-//                String sourceAsString = hit.getSourceAsString();
-//                User userEntity = objectMapper.readValue(sourceAsString, User.class);
-//                searchUserList.add(userEntity);
+        SearchHit[] searchHits = hits.getHits();
+        for (SearchHit hit : searchHits) {
+            String index = hit.getIndex();
+            String id = hit.getId();
+            float score = hit.getScore();
 
-                Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+//            String sourceAsString = hit.getSourceAsString();
+//            User userEntity = objectMapper.readValue(sourceAsString, User.class);
+//            searchUserList.add(userEntity);
 
-                User userEntity = new User();
-                userEntity.setUserName((String) sourceAsMap.get("userName"));
-                userEntity.setPassword((String) sourceAsMap.get("password"));
-                userEntity.setRole(new Role(2, "Patient"));
-                userEntity.setCreatedBy((String) sourceAsMap.get("createdBy"));
-                userEntity.setCreatedDate(LocalDateTime.now());
-                userEntity.setLastModifiedDate(LocalDateTime.now());
-                userEntity.setLastModifiedBy((String) sourceAsMap.get("lastModifiedBy"));
-                searchUserList.add(userEntity);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+
+            User userEntity = new User();
+            userEntity.setUserName((String) sourceAsMap.get("userName"));
+            userEntity.setPassword((String) sourceAsMap.get("password"));
+            userEntity.setRole(new Role(2, "Patient"));
+            userEntity.setCreatedBy((String) sourceAsMap.get("createdBy"));
+            userEntity.setCreatedDate(LocalDateTime.now());
+            userEntity.setLastModifiedDate(LocalDateTime.now());
+            userEntity.setLastModifiedBy((String) sourceAsMap.get("lastModifiedBy"));
+            searchUserList.add(userEntity);
         }
-
+        
         searchUserList.stream().forEach(userEntity -> {
             searchUserDtoList.add(modelMapper.map(userEntity, UserDto.class));
         });

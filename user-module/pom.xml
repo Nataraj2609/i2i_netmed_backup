@@ -148,6 +148,7 @@
             <version>0.4.1</version>
         </dependency>
 
+
     </dependencies>
 
     <build>
@@ -155,6 +156,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+                <version>4.3.1</version>
             </plugin>
         </plugins>
         <finalName>netmed-user-module</finalName>
