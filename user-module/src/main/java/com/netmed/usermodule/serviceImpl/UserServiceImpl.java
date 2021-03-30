@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
 
         SearchRequest searchRequest = new SearchRequest(INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.termQuery("userName", query));
+        searchSourceBuilder.query(QueryBuilders.matchQuery("userName", query));
         System.out.println(searchSourceBuilder);
         searchRequest.source(searchSourceBuilder);
 
