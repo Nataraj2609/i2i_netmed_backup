@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -186,6 +187,18 @@ class UserServiceImplTest {
 
         UserNotFoundException thrownException = assertThrows(UserNotFoundException.class, () -> {
             userService.updateUser(userDto);
+        });
+        assertEquals("User Record not found in the Database", thrownException.getMessage());
+    }
+
+    /**
+     * getUser_UserNotFoundExceptionTest method is used to do unit testing for getUser_UserNotFoundExceptionTest Business logic in Exceptions
+     */
+    @Test
+    public void getUser_UserNotFoundExceptionTest() throws IOException {
+        when(userRepository.findById(Long.valueOf(2))).thenReturn(Optional.empty());
+        UserNotFoundException thrownException = assertThrows(UserNotFoundException.class, () -> {
+            userService.getUser(Long.valueOf(2));
         });
         assertEquals("User Record not found in the Database", thrownException.getMessage());
     }
