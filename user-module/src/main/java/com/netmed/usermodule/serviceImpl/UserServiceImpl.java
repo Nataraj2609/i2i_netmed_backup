@@ -177,13 +177,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> doElasticSearch(String query) throws IOException {
+        StringBuilder str = new StringBuilder(query);
+        str.append("*");
         List<UserDto> searchUserDtoList = new ArrayList<>();
         List<User> searchUserList = new ArrayList<>();
 
         SearchRequest searchRequest = new SearchRequest(INDEX);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchQuery("userName", query));
-        System.out.println(searchSourceBuilder);
+        searchSourceBuilder.query(QueryBuilders.queryStringQuery(String.valueOf(str)));
+        logger.info(String.valueOf(searchSourceBuilder));
         searchRequest.source(searchSourceBuilder);
 
 
