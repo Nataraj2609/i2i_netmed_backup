@@ -170,16 +170,4 @@ class UserControllerTest {
         log.info(response.getContentAsString());
     }
 
-    /**
-     * elasticSearchTest is used to test elasticSearch() rest End point
-     * @throws Exception
-     */
-    @Test
-    public void elasticSearchTest() throws Exception {
-        MockHttpServletResponse response =  this.mockMvc.perform(get("/netmed-user-api/v1/users/doElasticSearch")
-                .param("q", "John Wick")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn().getResponse();
-        log.info(response.getContentAsString());
-    }
 }

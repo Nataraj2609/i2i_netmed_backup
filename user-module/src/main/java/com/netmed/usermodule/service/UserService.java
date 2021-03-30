@@ -81,6 +81,4 @@ public interface UserService {
      * @return Long - UserId
      */
     Long getUserIdByUserName(String userName);
-
-    List<UserDto> doElasticSearch(String query) throws IOException;
 }
