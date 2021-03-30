@@ -147,7 +147,10 @@
             <artifactId>feign-opentracing</artifactId>
             <version>0.4.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -158,11 +161,15 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-
                 <groupId>org.openclover</groupId>
                 <artifactId>clover-maven-plugin</artifactId>
-                <version>4.3.1</version>
+                <version>4.2.0</version>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.openclover</groupId>-->
+<!--                <artifactId>clover-maven-plugin</artifactId>-->
+<!--                <version>4.3.1</version>-->
+<!--            </plugin>-->
         </plugins>
         <finalName>netmed-user-module</finalName>
     </build>

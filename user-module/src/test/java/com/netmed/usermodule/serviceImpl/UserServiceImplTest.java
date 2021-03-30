@@ -1,6 +1,8 @@
 package com.netmed.usermodule.serviceImpl;
 
 import com.netmed.usermodule.dto.UserDto;
+import com.netmed.usermodule.exception.DuplicateUserRecordFoundException;
+import com.netmed.usermodule.exception.UserNotFoundException;
 import com.netmed.usermodule.model.Role;
 import com.netmed.usermodule.model.User;
 import com.netmed.usermodule.repository.UserRepository;
@@ -20,10 +22,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
  * UserServiceImplTest class is used to do unit testing for Business logic of User Micro Service
+ *
  * @author Nataraj M
  * @CreatedOn 23 March 2021
  */
@@ -110,5 +114,79 @@ class UserServiceImplTest {
 
         List<UserDto> userDtoList = userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
         assertEquals(userDtoList, userService.getAllUsers(0, 3, "des"));
+    }
+
+    /**
+     * searchUserTest method is used to do unit testing for searchUser() Business logic in service class
+     */
+    @Test
+    public void searchUserTest() {
+        String search = "John";
+        Role role = new Role(2, "Patient");
+        User user1 = new User(9, "John Wick", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
+        List<User> userList = new ArrayList<User>(Stream.of(user1).collect(Collectors.toList()));
+        Page<User> userPage = new PageImpl<>(userList);
+
+        Sort.Direction sortDirection = Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(sortDirection, "userName"));
+        when(userRepository.findByUserName(search, pageable)).thenReturn(userPage);
+        List<UserDto> userDtoList = userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+        assertEquals(userDtoList, userService.searchUser(search, 0, 3, "des"));
+    }
+
+    /**
+     * searchTest method is used to do unit testing for search() Business logic in service class
+     */
+    @Test
+    public void searchTest() {
+        String search = "John";
+        Role role = new Role(2, "Patient");
+        User user1 = new User(9, "John Wick", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
+        List<User> userList = new ArrayList<User>(Stream.of(user1).collect(Collectors.toList()));
+        when(userRepository.findUserByUserName(search)).thenReturn(userList);
+        List<UserDto> userDtoList = userList.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+        assertEquals(userDtoList, userService.search(search));
+    }
+
+    /**
+     * getUserIdByUserNameTest method is used to do unit testing for getUserIdByUserName() Business logic in service class
+     */
+    @Test
+    public void getUserIdByUserNameTest() {
+        String userName = "John Wick";
+        when(userRepository.findUserIdByUserName(userName)).thenReturn(Long.valueOf(2));
+        assertEquals(2, userService.getUserIdByUserName(userName));
+    }
+
+    /**
+     * DuplicateUserRecordFoundExceptionTest method is used to do unit testing for DuplicateUserRecordFoundException Business logic in Exceptions
+     */
+    @Test
+    public void DuplicateUserRecordFoundExceptionTest() throws IOException {
+        Role role = new Role(2, "Patient");
+        User user = new User(0, "SivaKarthik", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
+        when(userRepository.existsByUserName(user.getUserName())).thenReturn(true);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        DuplicateUserRecordFoundException thrownException = assertThrows(DuplicateUserRecordFoundException.class, () -> {
+            userService.createUser(userDto);
+        });
+        assertEquals("Duplicate User Record - A Record with same user name already Exists", thrownException.getMessage());
+    }
+
+    /**
+     * UserNotFoundExceptionTest method is used to do unit testing for UserNotFoundException Business logic in Exceptions
+     */
+    @Test
+    public void UserNotFoundExceptionTest() throws IOException {
+        Role role = new Role(2, "Patient");
+        User user = new User(0, "SivaKarthik", "abcdefghi", role, "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"), "Doctor Hari", LocalDateTime.parse("2021-03-19T16:17:30.016413500"));
+        when(userRepository.existsByUserName(user.getUserName())).thenReturn(false);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        UserNotFoundException thrownException = assertThrows(UserNotFoundException.class, () -> {
+            userService.updateUser(userDto);
+        });
+        assertEquals("User Record not found in the Database", thrownException.getMessage());
     }
 }

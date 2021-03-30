@@ -17,7 +17,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
-@EnableJpaAuditing
 @EnableCaching
 @RefreshScope
 @EnableBinding(Source.class)
