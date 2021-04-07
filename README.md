@@ -1121,7 +1121,7 @@ Add a Configuration class to return bean
 
 		  @Bean
 		    public JaegerTracer getTracer() {
-		        io.jaegertracing.Configuration.SamplerConfiguration samplerConfig = io.jaegertracing.Configuration.SamplerConfiguration.fromEnv().withType("const").withParam(1);
+		        io.jaegertracing.Configuration.SamplerConfiguration samplerConfig =  io.jaegertracing.Configuration.SamplerConfiguration.fromEnv().withType("const").withParam(1);
 		        io.jaegertracing.Configuration.ReporterConfiguration reporterConfig = io.jaegertracing.Configuration.ReporterConfiguration.fromEnv().withLogSpans(true);
 		        io.jaegertracing.Configuration config = new io.jaegertracing.Configuration("jaeger netmed-user-module").withSampler(samplerConfig).withReporter(reporterConfig);
 		        return config.getTracer();
@@ -1146,9 +1146,290 @@ Simply add these to application.properties
 		logging.level.com.zaxxer.hikari=DEBUG
 
 
-
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
 
+AWS
+
+EC2 - Elastic Compute Cloud
+
+Running our own Cloud computer
+
+Services ->  EC2 -> Launch Instances
+
+Image 
+	- Amazon Linux AMI 2018.03.0 (HVM) , SSD Volume type (Python Java Docker Mysql Php are in built) [Deprecated]
+	- Hence selected Amazon Linux 2 AMI (HVM), SSD Volume Type - ami-0bcf5425cdc1d8a85 (64-bit x86) / ami-003025fed2eb22f59 (64-bit Arm)
+	 [Amazon Linux 2 comes with five years support. It provides Linux kernel 4.14 tuned for optimal performance on Amazon EC2, systemd 219, GCC 7.3, Glibc 2.26, Binutils 2.29.1, and the latest software packages through extras. This AMI is the successor of the Amazon Linux AMI that is approaching end of life on December 31, 2020 and has been removed from this wizard.]
+
+Instance Type
+Configure Instance
+Add Storage - 10GB
+Add tags 
+Configure Security Group
+	- Add Rule
+		Custom Tcp Rule 	TCP  8080  
+
+
+		Then Connect via SSH Client - Termius
+
+To install Java 11 
+
+		sudo amazon-linux-extras install java-openjdk11
+
+		java -version
+
+		whoami
+
+		sudo -i #to move to root directory
+------------------------------------------------------------------------------------
+S3 services
+
+		Create Bucket
+		created the spring app jar
+		uploaded it to s3 and made public [Important]
+
+		Copy s3 Object URL
+
+		and get back to ssh - instance
+
+		wget https://natarajbuck.s3.ap-south-1.amazonaws.com/spring-aws-poc.jar
+		ls
+
+		java -jar spring-aws-poc.jar
+
+		Access http://ec2-13-126-90-129.ap-south-1.compute.amazonaws.com:8080/ in Browser [Dont use https as our spring boot expect Raw data Not encrypted data]
+
+------------------------------------------------------------------------------------
+Elastic BeanStalk:
+
+		It internally follows above process - like creating Ec2 instance behind the scenes & places WAR file in s3 bucket and then point Tomcat in Ec2 instance ---> War file
+
+		Here There's no need for Port Number [Advantage]
+
+
+		Create a War file by providing   <packaging>war</packaging> below 	<version>0.0.1-SNAPSHOT</version> in pom.xml
+
+			& run mvn clean package -Dmaven.test.skip = true [Building war: C:\Users\Windows\Downloads\poc\target\spring-aws-poc.war]
+
+		Create a Web app in EBS [You can even place docker image here]
+
+		Upload your code
+		[Maximum Size 512 MB]
+
+------------------------------------------------------------------------------------
+Connecting with Amazon Dynamo DB
+
+	Semi structured DB
+	Partial MongoDB
+
+	@DynamoDBDocument
+	@DynamoDBAttribute
+
+	@DynamoDBHashKey --- >>  Primary Key @Id
+
+		& then We need DynamoDBMapper - which is config file
+		Which holds Access key & secret key provided by AWS
+
+		https%3A%2F%2Fgithub.com%2FJava-Techie-jt%2Fspringboot-dynamodb-example
+
+------------------------------------------------------------------------------------
+ECS & Fargate
+
+	Create a Docker image using the command 
+
+	mvn spring-boot:build-image
+
+
+	A) Create New Task Definition - 
+
+	1. select launch type compatibility
+
+		Fargate - AWS managed infrastructure, no Ec2 instances needed
+		Ec2 	- Self managed infrastructure using Ec2 instance
+
+	2. Configure task and container definitions
+
+		Task Definition Name*
+
+		A task definition specifies which containers are included in your task and how they interact with each other. You can also specify data volumes for your containers to use.
+
+		Task size  1GB & 0.5 vCPU
+
+		The task size allows you to specify a fixed size for your task. Task size is required for tasks using the Fargate launch type and is optional for the EC2 launch type. Container level memory settings are optional when task size is set. Task size is not supported for Windows containers.
+
+	Container Definitions
+
+		You need to host your docker image in cloud
+
+		>>>>> So using ECR
+
+		Create a Reposistoy -> Private
+		You need a Amazon CLI and Docker installed on your computer
+
+			Download Access key from My Account -> My Security Credentials [Access keys (access key ID and secret access key)]
+
+			AWS account ID: 387723181851
+
+			Access Key ID: 			AKIAVURQ2H4NXQL3MMHF
+			Secret Access Key:			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
+
+		For Amazon CLI,
+		https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html
+		https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html [Windows]
+		https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html
+
+		In Cmd,
+
+		>> aws --version
+
+		>> aws configure
+		access key
+		secret access key
+		ap-south-1		=> default region name
+		json            => default output format
+
+	Now, copy registry uri from ECR
+		387723181851.dkr.ecr.ap-south-1.amazonaws.com/spring-aws-poc
+
+		In order to push from local machine, go to ECR via AWS CLI
+
+		>> aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 387723181851.dkr.ecr.ap-south-1.amazonaws.com
+
+				Login Succeeded --> console log
+
+		Now we are in ECR, we need to push our docker image
+
+		>> docker image ls
+
+		REPOSITORY                 TAG            IMAGE ID       CREATED        SIZE
+		spring-aws-poc.war         latest         27cf2a0a2eb4   19 hours ago   360MB
+
+		>> docker tag spring-aws-poc.war:latest 387723181851.dkr.ecr.ap-south-1.amazonaws.com/spring-aws-poc
+
+		>> docker push 387723181851.dkr.ecr.ap-south-1.amazonaws.com/spring-aws-poc
+
+		Copy Image uri
+
+		387723181851.dkr.ecr.ap-south-1.amazonaws.com/spring-aws-poc:latest
+
+	Back to ECS
+
+	Container name: spring-aws-poc
+	Image : 387723181851.dkr.ecr.ap-south-1.amazonaws.com/spring-aws-poc:latest
+	Memory limits: Hard limit 1024
+	Port Mappings : 8080
+
+	and click Add --> Create 
+	Task definition status - 3 of 3 completed
+
+   B) Create clusters
+
+   An Amazon ECS cluster is a regional grouping of one or more container instances on which you can run task requests.
+
+   Create Cluster
+
+   	Select cluster template: Networking only (Powered by aws fargate)
+   	configure cluster: specify cluster name : poc-cluster and create cluster
+
+   	click on View Cluster
+
+   	Go to Tasks --> Run New Task
+
+   		Launch type: Fargate
+   		Task Definition : (Will be added automatically)
+   		Cluster Vpc: Add the first one(default)
+   		Subnet: first one
+
+   		Security Group: -> HAVE TO EXPOSE 8080 PORT in this group
+   			Click on Edit security group, provide a Name: poc-all-access-security
+   			Add Inbound Rules as 
+   				All TCP 	 0 - 65535
+   				All Traffic  0 - 65535
+
+   		Now click on RUN TASK
+
+   		and click on the task details get public IP and go for IP:8080 :)
+
+   		http://13.233.40.255:8080/
+
+------------------------------------------------------------------------------------
+Lambda
+
+	Created a in built Hello World Lambda in AWS
+	Added an Trigger - Aws Gateway Rest Api
+
+	https://rzrbmxstua.execute-api.ap-south-1.amazonaws.com/default/basicExample
+
+	 > Hello from Lambda!
+
+	AWS Lambda is an event-driven, serverless computing platform. 
+
+	In AWS Lambda the code is executed based on the response of events in AWS services such as add/delete files in S3 bucket, HTTP request from Amazon API gateway, etc. However, Amazon Lambda can only be used to execute background tasks.
+
+	AWS Lambda function helps you to focus on your core product and business logic instead of managing operating system (OS) access control, OS patching, right-sizing, provisioning, scaling, etc.
+
+AWS Lambda VS AWS EC2
+
+	AWS Lambda is a Platform as a Service (PaaS). It helps you to run and execute your backend code.	
+
+			AWS EC2 Is an Infrastructure as a Service (laaS). It provides virtualized computing resources.
+
+	It is restricted to fewlanguages.		
+		
+			No environment restrictions.
+
+	You need to select your environment where you want to runthe code and push the code into AWS Lambda.		
+
+			For the first time in EC2, you have to choose the OS and install all the software required and then push your code in EC2.
+
+AWS Lambda VS AWS Elastic Beanstalk
+
+	Deploy and manage the apps on AWS Cloud without worrying about the infrastructure which runs those applications.	
+
+			AWS Lambda is used for running and executing your Back-end code. You can't use it to deploy an application.
+
+	It gives you a Freedom to select AWS resources; For example, you can choose EC2 instance which is optimal according to your application.
+
+			You can't select the AWS resources, like a type of EC2 instance, Lambda offers resources based on your workload.
+
+	It is a stateful system.	
+
+			It is a stateless system.
+
+https://www.guru99.com/aws-lambda-function.html
+
+Use Cases of AWS Lambda
+
+	Extract Transform Load Process
+	Use in Amazon products like Alexa Chatbots and Amazon Echo/Alexa
+	Automated Backups of everyday tasks
+	Allows you to filter and Transform data
+
+While most of the PaaS offerings are designed to be running 24/7, Lambda is completely event-driven; it will only run when invoked.
+
+https://www.contino.io/insights/aws-lambda-use-cases
+
+At the recently held ServerlessConf, ‘A Cloud Guru’ gave proof of serverless promise saying they were never required to change their architecture due to performance reasons. They are running 287 Lambda functions, 19 microservices with 3.68 TB of data at the mere cost of $580 per month. Read that again!
+
+
+https://www.simform.com/serverless-examples-aws-lambda-use-cases/
+
+		Serverless Website Example with AWS Lambda
+		Serverless Authentication Using AWS Cognito
+		Multi-Location Media Transformation
+		Mass Emailing using AWS Lambda & SES
+		AWS Lambda Use Case for Real-time Data Transformation
+		Serverless CRON Jobs
+		AWS Lambda Use Case for Efficient Monitoring
+		Real-time Notifications with AWS Lambda and SNS
+		Building a Serverless Chatbot
+		Serverless IoT Backend
+
+------------------------------------------------------------------------------------
 Jenkins
 
 	docker run -p 8080:8080 -p 50000:50000 -v /jenkinsDirectory:/var/jenkins_home jenkins
@@ -1173,8 +1454,206 @@ Jenkins is a self-contained, open source automation server which can be used to 
 			
 
 	[Lots of bugs found in Docker Jenkins & hence switched to PC version, it needs java 8 or 11 only Hence Jre 8 is installed]
+https://stackoverflow.com/questions/12681308/failed-to-connect-to-repository-error-while-setting-up-github-jenkins-plugin
 
-650755d4670940c9b32eaf4b474527d9 is the password
+Go to Powershell,
+
+>> Get-command git.exe
+	
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+				Application     git.exe                                            2.30.0.2   C:\Program Files\Git\cmd\git.exe	650755d4670940c9b32eaf4b474527d9 is the password
+
+LTS of Jenkins is installed in local
+
+	set path="c:\jre_8\bin" => jenkins runs on Java 8, 11 only
+	>>java -jar jenkins.jar
+
+
+https://github.com/Nataraj2609/jenkinshhh
+
+Create a New Job
+	Provide a name & choose Freestyle Project
+	check Github checkbox and add url
+	Under SCM, Choose Git radio button 
+		& provide git url
+
+			Initially "Failed to connect to repository : Error performing git command: git.exe ls-remote -h https://github.com/Nataraj2609/jenkinshhh HEAD" will be displayed
+
+				https://stackoverflow.com/questions/12681308/failed-to-connect-to-repository-error-while-setting-up-github-jenkins-plugin
+
+				Go to Powershell,
+
+				>> Get-command git.exe
+
+								
+					CommandType     Name        Version    Source
+					-----------     ----        -------    ------
+					Application     git.exe     2.30.0.2   C:\Program Files\Git\cmd\git.exe
+
+				You might need to set the path to your git executable in Manage Jenkins -> Configure System -> Git -> Git Installations -> Path to Git executable.	
+
+				Global Configure Systems and add git home & mvn home (Uncheck Install automatically)	
+
+				Save & Refresh
+
+	Add Git Credentials of yours
+
+	Under Build Triggers
+		Check Poll SCM
+			Schedule : * * * * *
+	Under Build
+		Add Invoke Top level maven targets
+			choose mvn
+				and give goals AS "install"
+	Under Post Build Actions
+		Choose Emil notification
+			Provide ur Email
+				Click Save
+
+
+	Now make a change in code & commit, push / Job will be triggered automatically
+
+In order to email to Jenkin
+	Go to Jenkins -> Manage Jenkins -> COnfigure System -> scroll to last
+	E-mail notification
+
+		SMTP server    : smtp.gmail.com
+		Default suffix : @gmail.com
+		Check Use SSL Checkbox
+		Check SMTP Authentication
+			UserName  : riderdon26@gmail.com
+			Password  : ****
+			SMTP Port : 465
+			Reply.To address: nataraj.manivannan@ideas2it.com
+			Charset   : UTF-8
+
+			Or
+
+			587 with TLS
+
+	https://support.google.com/mail/answer/7126229?p=BadCredentials&visit_id=637532975329331045-658335943&rd=2#cantsignin
+
+	Jenkin pipeline:
+
+	Workflow - Jobs that are chained & integrated with each other in sequence
+
+	Pipeline needs to be enabled for the first time
+
+	Jenkin -> Manage Jenkin -> Manage Plugin -> Available
+	search for Build Pipeline and add it (innstall without restart)
+
+	Example : Dev (Job 1) -> Stage(Job 2) -> Prod
+
+	Add new pipeline
+		Select Initial Job: Job 1
+	Now go to dashboard to view Stage Job and click Configure -> Build Triggers section -> Check Build after other projects are built
+		Give Project to watch -> Dev
+		likewise chain all
+
+		and go to Dashboard to see pipeline
+
+Docker Build image automatically
+
+	Install Plugin for it
+	Go to Jenkin -> Manage Jenkin -> Manage Plugins ->
+	1. CloudBees Docker Build and Publish plugin
+	2. Docker Plugin
+	3. docker build step
+
+	These 3 are needed
+
+	Go to dashboard -> click on Project Job -> configure
+	-> Post Build Trigger
+
+	Build/publish Docker Image
+	Docker build and Publish (Choose this one)
+
+	Add a DockerFile in git repo [Provide DockerHub / AWS ECR registry]
+
+		Repository name: 
+		tag :
+		Docker host URI:
+		Server Credentials: 
+		Docker Registry URL:
+		Registry Credentials: 
+
+------------------------------------------------------------------------------------
+
+Angular FrontEnd:
+
+	ng new user-module-frontend
+
+	cd user-module-frontend
+
+	ng serve -o
+
+
+
+
+Cheat Sheet:
+
+	--dry-run:
+
+		ng new example --dry-run
+
+		This option will stop the CLI from making any changes to the file system. Instead it will print everything it would have done to the console. That way you can check if the command actually does what you thought it does, before it causes any harm.
+
+	--skip-tests:
+
+		ng new example --skip-tests
+
+		Seriously, there are legit scenarios where you just don't need them.
+
+	ng generate:
+
+		ng generate component [name]
+
+		You need a new component, module, service or any other angular construct.
+
+	ng build:
+
+		When you are happy with your angular app, it is time to deploy it to a web-server.
+
+		This command will cause the CLI to build your application and places the output in a directory called "dist" (by default).
+
+		This means, that certain optimizations where not performed and the app is still using the development environment variables. To change that, use the --prod flag like this:
+
+		ng build --prod
+
+<!--- ![Image of Yaktocat](https://malcoded.com/static/68c150aaaee9e8056f44fb81a08799ad/d9b4a/angular-cli-cheat-sheet.webp)--->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+Git Workflow:
+
+	https://www.youtube.com/watch?v=3a2x1iJFJWc&ab_channel=Udacity
+
+	Working Dir ---> Stage/Index ---> HEAD[local repo] ---> Remote Repo
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------
 
 Multi Tenant Configuration
@@ -1189,3 +1668,18 @@ https://www.youtube.com/watch?v=iDogrHEo4x0&ab_channel=JavaTechie
 
 https://tech.asimio.net/2017/01/17/Multitenant-applications-using-Spring-Boot-JPA-Hibernate-and-Postgres.html
 
+https://thepracticaldeveloper.com/guide-spring-boot-controller-tests/
+
+
+
+
+
+
+
+
+
+https://dev.to/aws-builders/how-to-pass-the-aws-cloud-practitioner-exam-complete-guide-g18
+
+https://raygun.com/blog/git-workflow/
+
+https://www.atlassian.com/git/tutorials/comparing-workflows#:~:text=A%20Git%20Workflow%20is%20a,in%20how%20users%20manage%20changes.
