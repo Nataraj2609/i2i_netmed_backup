@@ -1274,8 +1274,8 @@ ECS & Fargate
 
 			AWS account ID: 387723181851
 
-			Access Key ID: 			AKIAVURQ2H4NXQL3MMHF
-			Secret Access Key:			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
+			Access Key ID: 			***
+			Secret Access Key:			***
 
 		For Amazon CLI,
 		https://docs.aws.amazon.com/AmazonECR/latest/userguide/getting-started-cli.html
