@@ -1060,6 +1060,9 @@ Constructor injection in Junit is hard, refer
 	https://junit.org/junit5/docs/current/user-guide/#writing-tests-dependency-injection
 
 ------------------------------------------------------------------------------------
+Useful:	
+https://stackoverflow.com/questions/51467132/spring-webmvctest-with-enablejpa-annotation	
+# Dont annotate @EnableJpaAuditing above spring boot main app	
 
 ------------------------------------------------------------------------------------
 
@@ -1080,9 +1083,9 @@ In Pom.xml, Under <build> -- <plugins> :
 			</plugin>
 
 mvn clean test - Runs Junit test cases alone   =>>>> BUILD SUCCESS
-
-mvn clean clover:setup test clover:aggregate clover:clover
-
+	
+			mvn clean clover:setup test clover:aggregate clover:clover	
+			mvn clean package -Dmaven.test.skip=true
 
 This will instrument your sources, build your project, run your tests and create a Clover coverage report in the target/site/clover directory.
 
@@ -1636,7 +1639,7 @@ Cheat Sheet:
 
 
 
-
+$0.57 -- April 7 2021 AWS Bill  42.27 INR	
 
 
 
