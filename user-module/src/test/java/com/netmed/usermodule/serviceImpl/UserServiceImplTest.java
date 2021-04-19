@@ -8,6 +8,7 @@ import com.netmed.usermodule.model.User;
 import com.netmed.usermodule.repository.UserRepository;
 import com.netmed.usermodule.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +41,7 @@ class UserServiceImplTest {
     private UserService userService;
 
     /* The UserRepository*/
-    @MockBean
+    @MockBean(answer= Answers.RETURNS_DEFAULTS)
     private UserRepository userRepository;
 
     /* The ModelMapper*/

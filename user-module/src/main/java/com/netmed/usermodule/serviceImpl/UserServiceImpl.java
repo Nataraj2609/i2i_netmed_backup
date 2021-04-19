@@ -46,10 +46,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -83,6 +80,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @CachePut(value = "user")
     public UserDto createUser(UserDto userDto) throws IOException {
+        Objects.requireNonNull(userDto, "UserDto should not be null");
         User userEntity = modelMapper.map(userDto, User.class);
         Role roleEntity = roleRepository.findByRoleName(userDto.getRoleName());
         userEntity.setRole(roleEntity);

@@ -20,6 +20,7 @@ import java.util.List;
  * @created 04/02/2021
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/netmed-user-api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
