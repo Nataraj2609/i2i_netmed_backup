@@ -125,7 +125,7 @@ create table netmed_role(role_id Integer primary key, role_name varchar(40));
 insert into netmed_role values(1,"Doctor");
 
 select * from netmed_role
-
+______________________________________________________________________________________________________________________________________________________________________
 
 
 create table netmed_user(user_id Integer Primary key, user_name varchar(256), password varchar(256), role_id Integer references netmed_role (role_id), created_by varchar(256), created_date timestamp , last_modified_by varchar(256), last_modified_date timestamp);
@@ -368,6 +368,17 @@ HOW REDIS STORES DATA - LIST OF USER PAGE
 
 	> redis-cli MONITOR
 
+In contrast to the @Cacheable annotation, this annotation does not cause the advised method to be skipped. Rather, it always causes the method to be invoked and its result to be stored in the associated cache if the condition() and unless() expressions match accordingly. Note that Java8's Optional return types are automatically handled and its content is stored in the cache if present.
+
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/annotation/CachePut.html
+
+https://www.baeldung.com/spring-cache-tutorial
+
+For Post,
+
+createUser method is invoked at 4:19:36 Pm
+Then is EXISTS is checked in redis cache, it will be false by default
+Hence SET happens in cache
 ------------------------------------------------------------------------------------
 CODE REVIEW:
 
@@ -1628,20 +1639,146 @@ Cheat Sheet:
 <!--- ![Image of Yaktocat](https://malcoded.com/static/68c150aaaee9e8056f44fb81a08799ad/d9b4a/angular-cli-cheat-sheet.webp)--->
 
 
+Components:
+	
+	list
+	detail
+	menubar
+	footer
+
+Get [view]
+	localhost:9000/netmed-user-api/v1/users/5
+
+	{
+    "userName": "Thilak Raj S",
+    "password": "PassWORDNULL",
+    "roleName": "Doctor",
+    "createdBy": "Doctor Hari",
+    "createdDate": "2021-01-19T03:14:07",
+    "lastModifiedBy": "Doctor Hari",
+    "lastModifiedDate": "2021-03-02T19:18:03"
+    }
+
+1. Created a model/entity/ds -> User.ts class
+
+		export class User{
+	    userName!: String;
+	    password!: String;
+	    roleName!: String;
+	    createdBy?:String;
+	    createdDate?:String;
+	    lastModifiedBy?:String;
+	    lastModifiedDate?: String;
+		}
+
+2. Created a Component -> user-record-detail (html, css, ts, spec.ts)
+
+		ng g component user-record-detail
+
+3. Created a service -> user-record-service
+
+		ng g service service/user-record-service (ts, spec.ts)
+
+4. Update Routes in app-routing-module.ts
+
+		Register Routes as
+
+			const routes: Routes = [
+			  {path: 'view-user', component: UserRecordDetailComponent},
+			  {path: 'list-users', component: UserRecordListPageComponent},
+			];
+
+5. This is the important One ==> app.module.ts
+
+		Every application has at least one Angular module,the root module that you bootstrap to launch the application(AppModule)
+
+		Modules are a way of organizing and separating your code. You can have multiple modules and lazy load some modules.
+		https://stackoverflow.com/questions/45942332/what-does-the-app-module-ts-file-serve-for-what-should-i-do-inside-of-it
+
+		Two components added by ng g command will be added automatically by angular under declarations.
+
+		Now add dependencies used in our Projects like
+
+			imports: [
+		    BrowserModule,
+		    AppRoutingModule,
+		    HttpClientModule,
+		    ReactiveFormsModule
+		  ],
+
+After service is done, go for component
+
+Detail-page-component.html ==> added table to display list
+	
+	<router-outlet></router-outlet> needs to added at end of each Component Page as this is used to set routes in a SPA.
+	Acts as a placeholder that Angular dynamically fills based on the current router state.
+
+	https://stackoverflow.com/questions/50854312/angular-6-with-2-router-outlet
+
+Detail-page-component.ts   ==> 
+
+		 users!: User[];
+
+		  constructor(private router: Router, private userService: UserRecordServiceService) { }
+
+		  ngOnInit(): void {
+		    this.router.events.subscribe(value => {
+		      this.getUsers();
+		    });
+		  }
+
+		  getUsers() {
+		    this.userService.getUserRecord().subscribe(data => {
+		      this.users = data;
+		    });
+		  }
+
+Important By default CORS is activated. localhost:4200 cannot invoke server running on localhost:9000
+To achieve this, Cors needs to be applied 
+
+You can enable cross-origin resource sharing (CORS) from either in individual controllers or globally.
+
+	1. @CrossOrigin(origins = "http://localhost:8080")
+		@GetMapping("/greeting")
+		public Greeting greeting(@RequestParam(required = false, defaultValue = "World") String name) {
+			System.out.println("==== get greeting ====");
+			return new Greeting(counter.incrementAndGet(), String.format(template, name));
+OR
+		@RestController
+		@CrossOrigin(origins = "http://localhost:4200")
+		@RequestMapping("/netmed-user-api/v1/users")
+		@RequiredArgsConstructor
+		public class UserController {
+
+	2. GlobalConfiguration like adding a Filter
+
+https://www.split.io/blog/crud-app-spring-boot-angular/
+https://bezkoder.com/angular-10-spring-boot-crud/
+
+https://www.smashingmagazine.com/2021/03/svg-generators/
 
 
+https://mdbootstrap.com/docs/angular/components/demo/
+
+https://mdbootstrap.com/education/angular/getting-started-3-export/ ==> Useful angular tutorial
 
 
+	npm install bootstrap --save
+	npm install jquery --save
 
+	Then Open angular.json and add like below
 
+	 "styles": [
+	              "./node_modules/bootstrap/dist/css/bootstrap.css", 
+	              "src/styles.css"
+	            ],
 
-
-
-
+	 "scripts": [
+	              "./node_modules/jquery/dist/jquery.js",              
+	              "./node_modules/bootstrap/dist/js/bootstrap.js"
+	            ]
 
 $0.57 -- April 7 2021 AWS Bill  42.27 INR	
-
-
 
 ------------------------------------------------------------------------------------
 Git Workflow:
@@ -1649,13 +1786,6 @@ Git Workflow:
 	https://www.youtube.com/watch?v=3a2x1iJFJWc&ab_channel=Udacity
 
 	Working Dir ---> Stage/Index ---> HEAD[local repo] ---> Remote Repo
-
-
-
-
-
-
-
 
 ------------------------------------------------------------------------------------
 
@@ -1670,19 +1800,238 @@ https://medium.com/swlh/multi-tenancy-implementation-using-spring-boot-hibernate
 https://www.youtube.com/watch?v=iDogrHEo4x0&ab_channel=JavaTechie
 
 https://tech.asimio.net/2017/01/17/Multitenant-applications-using-Spring-Boot-JPA-Hibernate-and-Postgres.html
-
 https://thepracticaldeveloper.com/guide-spring-boot-controller-tests/
 
 
-
-
-
-
-
-
-
 https://dev.to/aws-builders/how-to-pass-the-aws-cloud-practitioner-exam-complete-guide-g18
-
 https://raygun.com/blog/git-workflow/
-
 https://www.atlassian.com/git/tutorials/comparing-workflows#:~:text=A%20Git%20Workflow%20is%20a,in%20how%20users%20manage%20changes.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+https://www.educative.io/courses/grokking-the-system-design-interview?affiliate_id=4793322061168640
+
+
+
+https://lethain.com/introduction-to-architecting-systems-for-scale/
+https://www.tothenew.com/blog/caching-what-why-and-how-with-hazelcast/
+https://hazelcast.org/compare-with-redis/#:~:text=The%20biggest%20difference%20between%20Hazelcast,this%20introduces%20extra%20network%20hops.
+https://www.javadoc.io/doc/org.mockito/mockito-core/2.2.9/org/mockito/Answers.html#RETURNS_DEEP_STUBS
+
+
+https://www.youtube.com/watch?v=iTMClgY1heA&ab_channel=SkillFillip
+
+Cloud config servers
+
+https://developer.okta.com/blog/2020/05/04/spring-vault
+
+https://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/
+
+
+
+user module   - 9000
+patient module- 9001
+vital module  - 9002
+
+config server - 8888
+config git url- https://github.com/Nataraj2609/i2i_netmed_config_files
+
+Cloud config working check uri
+
+http://localhost:8888/user-module/dev
+http://localhost:8888/user-module/default
+
+
+		BIG MISTAKE:
+		Number 1:
+
+		<dependency>
+		      <groupId>org.springframework.cloud</groupId>
+		      <artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+
+		is not added in user module and hence bootstrap.yml file is not located by spring app
+
+		Number 2:
+
+		org.springframework.boot.context.config.ConfigDataResourceNotFoundException: Config data resource 'file [configserver:http:\localhost:8888]'	 via location 'configserver:http://localhost:8888/' cannot be found
+
+		Did not add above dependency again in CLIENT
+
+
+http://localhost:8888/user-module/dev
+
+consul agent -server -bootstrap-expect=1 -data-dir=consul-data -ui -bind=192.168.1.100
+
+http://localhost:8500/ui/dc1/services
+
+
+		Big Mistake 3
+
+		While get request, use         UserDto user = modelMapper.map(userEntity.get(), UserDto.class);
+
+		because findById provides Optional record, model Mapper will return null in this case
+
+		Big Mistake 4
+
+		Redis Cache Not Worked due to - UserDto not Serialized
+
+		Spring supports caching Optional. The issue is your Redis serializer (JdkSerializationRedisSerializer probably). It uses Java based serialization which requires the classes to be Serializable. You can solve this by configuring the RedisCacheManager to use another serializer that doesn't have this limitation. For example you can use Kryo (com.esotericsoftware:kryo:3.0.3):
+
+		@Cacheable ---> Check the imports - Swagger cacheable is imported wrongly
+
+Redis server: 6379
+Vault Server: 8200
+
+_________________________________________________________________________
+Docker Bridge Network - Port Forwarding - Container to Expose
+
+Consul 8500:8500
+	   8600:8600/udp
+
+Redis      :6379
+(Just Run For Redis it will pick)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PHASE 2:
+
+SpringBoot
+
+Java 8
+JUNIT Test Cases
+Jenkins/Docker
+
+
+Cache (Clients considering using Hazelcast)
+Artifactory
+
+
+
+==> Junit :
+
+	Stubbing means replacing a method, function or an entire object with a version that produces hard-coded responses. This is typically used to isolate components from each other, and your code from the outside world. For example, stubbing is often used to decouple tests from storage systems and to hard-code the result of HTTP requests to test code that relies on data from the internet.
+
+	Mocking is a form of testing that involves verifying behaviour by checking which methods are called during a test. Like stubbing, it involves replacing methods with fake versions, but it also means setting expectations that those methods must be called. This is used to specify contracts between layers of an application, and to test side-effects.
+
+Mocks and stubs are fake Java classes that replace these external dependencies. These fake classes are then instructed before the test starts to behave as you expect. 
+
+A stub is a fake class that comes with preprogrammed return values. It’s injected into the class under test to give you absolute control over what’s being tested as input. A typical stub is a database connection that allows you to mimic any scenario without having a real database.
+
+A mock is a fake class that can be examined after the test is finished for its interactions with the class under test. For example, you can ask it whether a method was called or how many times it was called. Typical mocks are classes with side effects that need to be examined, e.g. a class that sends emails or sends data to another external service.
+
+
+Notice that, even though stubbing and mocking are two different things, Mockito uses “mocks” for everything
+
+
+stubbed/Mocked in junit mockito - solution as below
+	
+	 /* The UserRepository*/
+    @MockBean(answer= Answers.RETURNS_DEFAULTS)
+    private UserRepository userRepository;
+
+
+    CALLS_REAL_METHODS
+		An answer that calls the real methods (used for partial mocks).
+	RETURNS_DEEP_STUBS
+		An answer that returns deep stubs (not mocks).
+	RETURNS_DEFAULTS
+		The default configured answer of every mock.
+	RETURNS_MOCKS
+		An answer that returns mocks (not stubs).
+	RETURNS_SELF
+		An answer that tries to return itself.
+	RETURNS_SMART_NULLS
+		An answer that returns smart-nulls.
+
+		https://www.javadoc.io/doc/org.mockito/mockito-core/2.2.9/org/mockito/Answers.html#RETURNS_DEEP_STUBS
+
+
+Null Pointer Exception:
+
+	If you attempt to dereference num before creating the object you get a NullPointerException.
+
+	If the method is intended to do something to the passed-in object as the above method does, it is appropriate to throw the NullPointerException because it's a programmer error and the programmer will need that information for debugging purposes.
+
+	https://stackoverflow.com/questions/218384/what-is-a-nullpointerexception-and-how-do-i-fix-it
+
+		Objects.requireNonNull(userDto, "UserDto should not be null");
+
+	You can check for Null like this and throw a message
+
+How to avoid NPE:
+
+	1. Only Non Primitive data types produces NPE (String, arrays, Classes/Objects) 
+		Call equals() and equalsIgnoreCase() method on known String literal rather unknown object
+					Object unknownObject = null;
+
+					//wrong way - may cause NullPointerException
+					if(unknownObject.equals("knownObject")){
+					   System.err.println("This may result in NullPointerException if unknownObject is null");
+					}
+
+					//right way - avoid NullPointerException even if unknownObject is null
+					if("knownObject".equals(unknownObject)){
+					    System.err.println("better coding avoided NullPointerException");
+					}
+	2. Prefer valueOf() over toString() where both return same result
+
+	3. Using null safe methods and libraries
+			StringUtils.isEmpty();
+
+	4) Avoid returning null from a method, instead, return an empty collection or an empty array.
+
+			    public static List<String> getMe(String str) {
+			        List<String> stringList = new ArrayList<>();
+			        stringList = null;
+			        return stringList == null ? Collections.EMPTY_LIST : stringList;
+			    }
+
+			    OR
+
+			    public static List<String> getMe(String str) {
+			        List<String> stringList = Collections.EMPTY_LIST;
+			        return stringList;
+			    }
+
+	5. Use of annotation @NotNull and @Nullable
+
+	6. Avoid unnecessary autoboxing and unboxing in your code
+
+	7. If you are using database for storing your domain object such as Customers, Orders etc than you should define your null-ability constraints on database itself. Since database can acquire data from multiple sources, having null-ability check in DB will ensure data integrity.
+
+	8. Use Null Object Pattern
+		The Null object is a special object, which has different meaning in different context, for example, here an empty Iterator, calling hasNext() on which returns false, can be a null object. 
+
+Check Array Null Using Java 8
+
+	If you are working with Java 8 or higher version then you can use the stream() method of Arrays class to call the allMatch() method to check whether array contains null values or not.
+
+				 	public class SimpleTesting {
+
+						String[] arr = new String[10];
+
+						public static void main(String[] args) {
+							SimpleTesting obj = new SimpleTesting();
+							Boolean containNull = Arrays.stream(obj.arr).allMatch(Objects::nonNull);
+							if(!containNull) {
+								System.out.println("Array is null");
+							}
+						}
+					}
+
+
+Caching:
+
+https://lethain.com/introduction-to-architecting-systems-for-scale/
+
+Application caching requires explicit integration in the application code itself. Usually it will check if a value is in the cache; if not, retrieve the value from the database; then write that value into the cache (this value is especially common if you are using a cache which observes the least recently used caching algorithm). The code typically looks like (specifically this is a read-through cache, as it reads the value from the database into the cache if it is missing from the cache)
+
+Cache invalidation:
+
+While caching is fantastic, it does require you to maintain consistency between your caches and the source of truth (i.e. your database), at risk of truly bizarre applicaiton behavior.
+
+Solving this problem is known as cache invalidation.
+
+If you’re dealing with a single datacenter, it tends to be a straightforward problem, but it’s easy to introduce errors if you have multiple codepaths writing to your database and cache (which is almost always going to happen if you don’t go into writing the application with a caching strategy already in mind). At a high level, the solution is: each time a value changes, write the new value into the cache (this is called a write-through cache) or simply delete the current value from the cache and allow a read-through cache to populate it later (choosing between read and write through caches depends on your application’s details, but generally I prefer write-through caches as they reduce likelihood of a stampede on your backend database).
+
+
