@@ -2035,3 +2035,66 @@ Solving this problem is known as cache invalidation.
 If you’re dealing with a single datacenter, it tends to be a straightforward problem, but it’s easy to introduce errors if you have multiple codepaths writing to your database and cache (which is almost always going to happen if you don’t go into writing the application with a caching strategy already in mind). At a high level, the solution is: each time a value changes, write the new value into the cache (this is called a write-through cache) or simply delete the current value from the cache and allow a read-through cache to populate it later (choosing between read and write through caches depends on your application’s details, but generally I prefer write-through caches as they reduce likelihood of a stampede on your backend database).
 
 
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+#Jaspersoft Studio CE
+
+You can use Jaspersoft Studio to create the template
+
+Once you’ve successfully generate a report, you can save and compile the file.
+
+	In Jaspersoft studio, We need to add some Field and then merge it into Text Field like '$F{username}'.
+
+	Create some Fields in left lower panel, Name: id & value: class name java.lang.Long
+
+Then add jrxml file to Resources folder.
+
+Add Dependency
+	<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+	<dependency>
+	    <groupId>net.sf.jasperreports</groupId>
+	    <artifactId>jasperreports</artifactId>
+	    <version>6.16.0</version>
+	</dependency>
+
+Remove below codes from jrxml template
+
+    <queryString language="SQL">
+        <![CDATA["PRODUCT"]]>
+    </queryString>
+
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="476"/>
+    <property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="524"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+
+That's it, lets write the service class
+
+https://medium.com/@maeluenie/jasper-report-with-spring-boot-service-b896456ec856
+
+	 	@GetMapping("/report/{format}")
+	    public String getReport(@PathVariable String format) throws FileNotFoundException, JRException {
+	        User user = userRepository.findByUsername("nat");
+	        List<User> userList = new ArrayList<>();
+	        userList.add(user);
+	        String path = "C:\\Users\\Windows\\Downloads";
+
+	        //load file and compile it
+	        File file = ResourceUtils.getFile("classpath:invoice.jrxml");
+	        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+	        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(userList);
+
+	        Map<String, Object> parameters = new HashedMap();
+	        parameters.put("createdBy","John Wick");
+
+	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+	        if(("pdf").equalsIgnoreCase(format))
+	            JasperExportManager.exportReportToPdfFile(jasperPrint, path+"\\invoice.pdf");
+	        else
+	            JasperExportManager.exportReportToHtmlFile(jasperPrint, path+"\\invoice.html");
+
+	        return "Report generated! :)";
+	    }
+
+---------------------------------------------------------------------------------------------------------------------------------
